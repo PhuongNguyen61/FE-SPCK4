@@ -1,0 +1,115 @@
+.MailPage {
+  width: 100%;
+  height: 100%;
+  /* border: 1px solid black; */
+  padding: 2%;
+}
+
+.MailPage div {
+  font-size: 0.9rem;
+}
+
+.MailPage .listMail {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.MailPage .listMail .mailFrame {
+  border: 1px solid gray;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: row;
+  padding: 2%;
+  justify-content: space-between;
+  position: relative;
+}
+
+.MailPage .listMail .mailFrame label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  opacity: 0.4;
+}
+/*  */
+
+/* section2 */
+.MailPage .listMail .mailFrame .section2 {
+  width: 40%;
+  gap: 2%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.MailPage .listMail .mailFrame .section2 .status {
+  text-wrap: nowrap;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.MailPage .listMail .mailFrame .section2 .toReason {
+  border-bottom: 1px solid black;
+  transition: 0.3s;
+}
+
+.MailPage .listMail .mailFrame .section2 .toReason:hover {
+  border-bottom: 1px solid rgb(255, 109, 109);
+  color: rgb(255, 109, 109);
+}
+
+/* reasonFrame */
+.MailPage .reasonFrame {
+  position: fixed;
+  z-index: 10;
+  width: 100vw;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: #00000030;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.MailPage .reasonFrame .modal {
+  min-height: 35vh;
+  min-width: 30vw;
+  background-color: white;
+  padding: 1%;
+  border-radius: 10px;
+}
+
+.MailPage .reasonFrame .modal .ReasonModalheader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.MailPage .reasonFrame .modal .ReasonModalheader .closeModal {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.MailPage .reasonFrame .modal .ReasonModalcontent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.MailPage .reasonFrame .modal .ReasonModalcontent .title {
+  color: rgb(250, 102, 102);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.MailPage .reasonFrame .modal .ReasonModalcontent textarea {
+  resize: none;
+  width: 100%;
+  height: 20vh;
+  padding: 2%;
+}
