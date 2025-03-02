@@ -34,11 +34,6 @@ const CarDetailPage = () => {
 
   const userId = userObj?._id || null;
 
-  if (!accessToken) {
-    console.error("AccessToken is missing!");
-    message.error("Người dùng chưa đăng nhập");
-    navigate("/login");
-  }
   //Hàm gửi thư
   const handleSendMail = async (e) => {
     setLoading(true);
@@ -50,6 +45,10 @@ const CarDetailPage = () => {
     formData.append("mailContent", comment);
     console.log(formData);
     try {
+      if (!accessToken) {
+        message.error("Người dùng chưa đăng nhập");
+        return;
+      }
       const response = await axios.post(
         `http://localhost:8080/api/v1/mail/PostMail?senderId=${userId}&recipientId=${carData.idProvider._id}&carId=${carData._id}`,
         formData,
@@ -77,8 +76,8 @@ const CarDetailPage = () => {
   // const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    const user = JSON.parse(localStorage.getItem("currentUser"));
-    const accessToken = user.accessToken;
+    // const user = JSON.parse(localStorage.getItem("currentUser"));
+    // const accessToken = user.accessToken;
 
     const fetchCarData = async () => {
       try {
@@ -87,11 +86,14 @@ const CarDetailPage = () => {
         );
         setCarData(carResponse.data.data);
 
-        const wishListResponse = await axios.get(`http://localhost:8080/api/v1/cars/wishlist/${user._id}?limit=100&page=1`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const wishListResponse = await axios.get(
+          `http://localhost:8080/api/v1/cars/wishlist/${user._id}?limit=100&page=1`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
 
         // setWishlist(wishListResponse.data.data);
 
@@ -100,8 +102,7 @@ const CarDetailPage = () => {
           if (w._id == idCar) {
             setBtnLikeProduct(true);
           }
-
-        })
+        });
       } catch (error) {
         console.error("Error fetching car data:", error.message);
       }
@@ -126,28 +127,38 @@ const CarDetailPage = () => {
       const user = JSON.parse(localStorage.getItem("currentUser"));
       const accessToken = user.accessToken;
       if (!accessToken) {
-        alert("Please login to add to wishlist");
+        message.error("Please login to add to wishlist");
         return;
       }
 
       if (!btnLikeProduct) {
-        await axios.post(`http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }).then(response => {
-          console.log(response);
-        })
+        await axios
+          .post(
+            `http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response);
+          });
 
         setBtnLikeProduct(true);
       } else {
-        await axios.delete(`http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }).then(response => {
-          console.log(response);
-        });
+        await axios
+          .delete(
+            `http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response);
+          });
         setBtnLikeProduct(false);
       }
     } catch (error) {
