@@ -2,12 +2,15 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import { message } from "antd";
 // Store
 import { Store } from '../../../../Store';
 //
+import Loading from "../../../Loading";
 import './style.css';
 
 const ViewUserInfo = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const store = useContext(Store);
     let accessToken;
@@ -23,6 +26,7 @@ const ViewUserInfo = () => {
     const {id} = useParams();
     const [info, setInfo] = useState({});
     const queryUserInfo = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/users/${id}`,
                 {
@@ -33,7 +37,24 @@ const ViewUserInfo = () => {
             );
             setInfo(response.data.data);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'), 2)
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message), 2);
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -95,6 +116,7 @@ const ViewUserInfo = () => {
                 <button onClick={() => navigate(`/admin/users/editUserInfo/${info._id}`)}>Chỉnh sửa</button>
                 <button onClick={() => window.history.back()}>Quay lại</button>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }
