@@ -33,7 +33,7 @@ const listYear = [
 
 const listColor = ["Đỏ", "Đen", "Trắng", "Ghi", "Xanh lá", "Xanh dương", "Nâu"];
 
-const EditPostProviderModal = ({ openEditModal, car }) => {
+const EditPostProviderModal = ({ openEditModal, car, setOnOpenEditModal }) => {
   const [carPrice, setCarPrice] = useState(car.carPrice || "");
   const [brand, setBrand] = useState(car.brand || listBrand[0]);
   const [color, setColor] = useState(car.color || listColor[0]);
@@ -84,6 +84,8 @@ const EditPostProviderModal = ({ openEditModal, car }) => {
     };
 
     try {
+      console.log(accessToken);
+
       const response = await axios.put(
         `http://localhost:8080/api/v1/cars/updatecar/${car._id}`,
         updatedCar,
@@ -94,8 +96,9 @@ const EditPostProviderModal = ({ openEditModal, car }) => {
         }
       );
       message.success("Cập nhật thành công");
+      setOnOpenEditModal(false);
     } catch (error) {
-      console.error("Lỗi cập nhật xe:", error);
+      console.error("Lỗi cập nhật xe:", error.response.data.message);
       message.error(error);
     }
   };

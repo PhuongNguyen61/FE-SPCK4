@@ -116,6 +116,7 @@ const PostManage = () => {
               )}
               {onOpenEditModal && selectedCar && (
                 <EditPostProviderModal
+                  setOnOpenEditModal={setOnOpenEditModal}
                   car={selectedCar}
                   openEditModal={() => setOnOpenEditModal(false)}
                 />
