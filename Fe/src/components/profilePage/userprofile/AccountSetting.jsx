@@ -7,8 +7,11 @@ import axios from 'axios';
 import { Store } from '../../../Store';
 // import dayjs from "dayjs";
 import moment from 'moment';
+import Loading from "../../Loading";
+
 
 const { Option } = Select;
+
 
 const getBase64 = (file) =>
   new Promise((resolve, reject) => {
@@ -23,7 +26,7 @@ const AccountSetting = () => {
   const store = useContext(Store);
   useEffect(() => {
     if (!store.currentUser) {
-        navigate('/');
+      navigate('/');
     };
   }, []);
 
@@ -51,21 +54,21 @@ const AccountSetting = () => {
 
   const handleChangeFile = ({ fileList: newFileList }) => setFileList(newFileList);
 
-  // const onChange = (name, value) => {
-  //   setFormData((prev) => ({
-  //     ...prev,
-  //     [name]: value,
-  //   }));
-  // };
+  const onChange = (name, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
   let accessToken;
   if (store.currentUser) {
-      accessToken = store.currentUser.accessToken
+    accessToken = store.currentUser.accessToken
   };
 
   const ModifyUserData = async () => {
     if (!fileList.length) {
-      message.error("Please upload an avatar.");
+      message.error("Vui lòng tải lên ảnh đại diện!");
       return;
     }
 
@@ -85,11 +88,10 @@ const AccountSetting = () => {
         },
       }
       );
-
-      message.success("User data updated successfully!");
+      message.success("Cập nhật thông tin người dùng thành công!");
     } catch (error) {
       console.log(error.message);
-      message.error("Failed to update user data.");
+      message.error("Cập nhật thông tin người dùng thất bại!");
     }
   };
 
@@ -114,11 +116,35 @@ const AccountSetting = () => {
             <Form.Item
               name="username"
               label="User Name"
-              rules={[{ required: true, message: 'Please enter user name' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập tên người dùng!' }]}
             >
               <Input
-                placeholder="Please enter user name"
+                placeholder="Vui lòng nhập tên người dùng!"
                 onChange={(e) => onChange('username', e.target.value)}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={24}>
+            <Form.Item
+              name="fullname"
+              label="Họ Và Tên"
+              rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}
+            >
+              <Input
+                placeholder="Vui lòng nhập tên người dùng!"
+                onChange={(e) => onChange('fullname', e.target.value)}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={24}>
+            <Form.Item
+              name="email"
+              label="Email"
+              rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
+            >
+              <Input
+                placeholder="Vui lòng nhập tên người dùng!"
+                onChange={(e) => onChange('email', e.target.value)}
               />
             </Form.Item>
           </Col>
@@ -126,11 +152,11 @@ const AccountSetting = () => {
           <Col span={24}>
             <Form.Item
               name="phoneNumber"
-              label="Phone Number"
-              rules={[{ required: true, message: 'Please enter phone number' }]}
+              label="Số Điện Thoại"
+              rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
             >
               <Input
-                placeholder="Please enter phone number"
+                placeholder="Vui lòng nhập số điện thoại!"
                 onChange={(e) => onChange('phoneNumber', e.target.value)}
               />
             </Form.Item>
@@ -139,11 +165,11 @@ const AccountSetting = () => {
           <Col span={24}>
             <Form.Item
               name="address"
-              label="Address"
-              rules={[{ required: true, message: 'Please enter address' }]}
+              label="Địa Chỉ"
+              rules={[{ required: true, message: 'Vui lòng nhập số địa chỉ!' }]}
             >
               <Input
-                placeholder="Please enter address"
+                placeholder="Vui lòng nhập số địa chỉ!"
                 onChange={(e) => onChange('address', e.target.value)}
               />
             </Form.Item>
@@ -152,8 +178,8 @@ const AccountSetting = () => {
           <Col span={24}>
             <Form.Item
               name="dateOfBirth"
-              label="Date of Birth"
-              rules={[{ required: true, message: 'Please select date of birth' }]}
+              label="Ngày Tháng Năm Sinh"
+              rules={[{ required: true, message: 'Vui lòng nhập ngày tháng năm sinh!' }]}
             >
               <DatePicker onChange={(date) => onChange('dateOfBirth', date)} disabledDate={(current) => {
                 return (
@@ -190,7 +216,7 @@ const AccountSetting = () => {
 
           <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
             <Button type="primary" onClick={ModifyUserData} >
-              Submit
+              Xác Nhận
             </Button>
           </Form.Item>
         </Row>

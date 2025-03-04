@@ -4,13 +4,15 @@ import "../userprofile/Account.css";
 import axios from "axios";
 // import { Button } from "antd";
 import { Store } from "../../../Store";
+import Loading from "../../Loading";
 
 const Account = () => {
   const navigate = useNavigate();
   const store = useContext(Store);
+  const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!store.currentUser) {
-        navigate('/');
+      navigate('/');
     };
   }, []);
 
@@ -32,7 +34,7 @@ const Account = () => {
   }, [userId]);
 
   if (!userData) {
-    return <div>...Loading</div>;
+    return <Loading></Loading>;
   }
 
   const formatDate = (d) => {
@@ -51,6 +53,9 @@ const Account = () => {
     return null
   }
 
+  // if (!carData) {
+  //   return <Loading></Loading>;
+  // }
   return (
     <div className="account">
       <div className="form">
@@ -58,13 +63,14 @@ const Account = () => {
           <img src={userData.avatar} alt="" />
         </div>
         <div className="text">
-          <p>User name: {userData.username} </p>
+          <p>Họ Và Tên: {userData.fullname}</p>
+          <p>User Name: {userData.username} </p>
           <p>Email: {userData.email} </p>
           <p>Role: {userData.role} </p>
-          <p>Full name: {userData.fullname} </p>
-          <p>Date of birth: {formatDate(userData.dateOfBirth)} </p>
-          <p>Address: {userData.address} </p>
-          <p>Phone: {userData.phoneNumber} </p>
+          {/* <p>Full name: {userData.fullname} </p> */}
+          <p>Ngày Tháng Năm Sinh: {formatDate(userData.dateOfBirth)} </p>
+          <p>Địa Chỉ: {userData.address} </p>
+          <p>Số Điện Thoại: {userData.phoneNumber} </p>
         </div>
         {/* <Button onClick={() => navigate(`/provider/${store.currentUser._id}`)}>
           {" "}
@@ -96,6 +102,7 @@ const Account = () => {
           </div>
         )}
       </div>
+      {loading && <Loading></Loading>}
     </div>
   );
 };
