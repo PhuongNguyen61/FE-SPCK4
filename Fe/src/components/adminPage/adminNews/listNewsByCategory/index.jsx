@@ -2,18 +2,21 @@ import { useNavigate, useLocation,useParams } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import { message } from "antd";
 // Store
 import { Store } from '../../../../Store';
 // icons
 import LeftArrowIcon from '../../../../icons/adminPage/LeftArrowIcon';
 import RightArrowIcon from '../../../../icons/adminPage/RightArrowIcon';
 //
+import Loading from "../../../Loading";
 import './style.css';
 
 const div = 'div'
 const activeDiv = 'activeDiv div'
 
 const ListNewsByCategory = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const store = useContext(Store);
     let accessToken;
@@ -32,6 +35,7 @@ const ListNewsByCategory = () => {
     const [publishedNews, setPublishedNews] = useState();
     const [draftNews, setDraftNews] = useState();
     const queryCountNews = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/news/countNewsByCategory/${splitPathname[5]}`,
                 {
@@ -44,7 +48,24 @@ const ListNewsByCategory = () => {
             setPublishedNews(response.data.publishedNews);
             setDraftNews(response.data.draftNews);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -57,6 +78,7 @@ const ListNewsByCategory = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [listNews, setListNews] = useState([]);
     const queryListNews = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/news/newsByCategory?limit=${limit}&currentPage=${currentPage}&isStatus=${isStatus}&isCategory=${splitPathname[5]}`,
                 {
@@ -68,7 +90,24 @@ const ListNewsByCategory = () => {
             setListNews(response.data.data);
             setTotalPages(response.data.totalPages);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -112,6 +151,7 @@ const ListNewsByCategory = () => {
     };
     // xóa tin
     const handleDelete = async (id) => {
+        setLoading(true);
         try {
             const response = await axios.delete(`http://localhost:8080/api/v1/news/deleteNewsById/${id}`,
                 {
@@ -122,8 +162,26 @@ const ListNewsByCategory = () => {
             );
             queryCountNews();
             queryListNews();
+            message.success((response.data.message), 2);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     return (
@@ -195,6 +253,7 @@ const ListNewsByCategory = () => {
                     </button>
                 </div>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }

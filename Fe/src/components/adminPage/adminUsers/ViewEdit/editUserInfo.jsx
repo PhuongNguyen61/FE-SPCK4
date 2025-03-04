@@ -2,12 +2,15 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import { message } from "antd";
 // Store
 import { Store } from '../../../../Store';
 //
+import Loading from "../../../Loading";
 import './style.css';
 
 const EditUserInfo = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const store = useContext(Store);
     let accessToken;
@@ -31,6 +34,7 @@ const EditUserInfo = () => {
     const [avatar, setAvatar] = useState('');
     const [img, setImg] = useState('');
     const queryUserInfo = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/users/${id}`,
                 {
@@ -51,7 +55,24 @@ const EditUserInfo = () => {
             };
             setImg(info.avatar);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -63,6 +84,7 @@ const EditUserInfo = () => {
         setImg(URL.createObjectURL(e.target.files[0]));
     };
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         const payloadFormData = new FormData();
         payloadFormData.append('username', username);
@@ -80,10 +102,31 @@ const EditUserInfo = () => {
                     "Content-type": "multipart/form-data",
                 },
             });
-            alert(response.data.message);
-            window.history.back();
+            message.loading('Đang cập nhật!', 1)
+            .then(() => {
+                message.success((response.data.message), 2);
+                setLoading(false);
+                // navigate('/admin/users/all');
+                window.history.back();
+            });
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+            setLoading(false);
         }
     };
     return (
@@ -136,7 +179,8 @@ const EditUserInfo = () => {
                 <button onClick={handleSubmit}>Cập nhật</button>
                 <button onClick={() => window.history.back()}>Quay lại</button>
             </div>
-        </div>
+        {loading && <Loading></Loading>}
+      </div>
     )
 }
 

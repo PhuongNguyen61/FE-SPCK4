@@ -2,12 +2,15 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import { message } from "antd";
 // Store
 import { Store } from '../../../../Store';
 //
+import Loading from "../../../Loading";
 import './style.css';
 
 const EditCarInfo = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const store = useContext(Store);
     let accessToken;
@@ -44,6 +47,7 @@ const EditCarInfo = () => {
     // miêu tả
     const [describe, setDescribe] = useState('');
     const queryCarInfo = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/cars/car/${id}`,
                 {
@@ -76,7 +80,24 @@ const EditCarInfo = () => {
             //
             setDescribe(info.describe);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -84,6 +105,7 @@ const EditCarInfo = () => {
     }, []);
     // submit
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         const payloadFormData = new FormData();
         payloadFormData.append('brand', brand);
@@ -111,10 +133,31 @@ const EditCarInfo = () => {
                     "Content-type": "application/json",
                 },
             });
-            alert(response.data.message);
-            window.history.back();
+            message.loading('Đang cập nhật!', 1)
+            .then(() => {
+                message.success((response.data.message), 2);
+                setLoading(false);
+                // navigate('/admin/cars/all');
+                window.history.back();
+            });
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+            setLoading(false);
         }
     };
     return (
@@ -240,6 +283,7 @@ const EditCarInfo = () => {
                 <button onClick={handleSubmit}>Cập nhật</button>
                 <button onClick={() => window.history.back()}>Quay lại</button>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }
