@@ -2,18 +2,21 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import { message } from "antd";
 // Store
 import { Store } from '../../../../Store';
 // icons
 import LeftArrowIcon from '../../../../icons/adminPage/LeftArrowIcon';
 import RightArrowIcon from '../../../../icons/adminPage/RightArrowIcon';
 //
+import Loading from "../../../Loading";
 import './style.css';
 
 const div = 'div'
 const activeDiv = 'activeDiv div'
 
 const ListCommentsByNews = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const store = useContext(Store);
     let accessToken;
@@ -32,6 +35,7 @@ const ListCommentsByNews = () => {
     const [approvedComments, setApprovedComments] = useState();
     const [spamComments, setSpamComments] = useState();
     const queryCountComments = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/comments/countCommentsByNews/${splitPathname[5]}`,
                 {
@@ -44,7 +48,24 @@ const ListCommentsByNews = () => {
             setApprovedComments(response.data.approvedComments);
             setSpamComments(response.data.spamComments);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -58,13 +79,31 @@ const ListCommentsByNews = () => {
     const [listComments, setListComments] = useState([]);
     const [newsTitle, setNewsTitle] = useState('');
     const queryListComments = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/comments/commentByNewsId?limit=${limit}&currentPage=${currentPage}&isStatus=${isStatus}&newsId=${splitPathname[5]}`);
             setListComments(response.data.data);
             setTotalPages(response.data.totalPages);
             setNewsTitle(response.data.newsTitle)
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -95,6 +134,7 @@ const ListCommentsByNews = () => {
     };
     // xóa bình luận
     const handleDelete = async (id) => {
+        setLoading(true);
         try {
             const response = await axios.delete(`http://localhost:8080/api/v1/comments/deleteCommentById/${id}`,
                 {
@@ -105,17 +145,36 @@ const ListCommentsByNews = () => {
             );
             queryCountComments();
             queryListComments();
+            message.success((response.data.message), 2)
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     // thay đổi trạng thái bình luận
-    const handleChangeCommentStatus = async (id, newIsStatus) => {
+    const handleChangeCommentStatus = async (id, newStatus) => {
+        setLoading(true);
         try {
             const response = await axios.put(`http://localhost:8080/api/v1/comments/changeCommentStatus`,
                 {
                     commentId: id,
-                    newIsStatus: newIsStatus
+                    newStatus: newStatus
                 },{
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -124,8 +183,26 @@ const ListCommentsByNews = () => {
             );
             queryCountComments();
             queryListComments();
+            message.success((response.data.message), 2);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     // chỉnh sửa bình luận
@@ -141,6 +218,7 @@ const ListCommentsByNews = () => {
     // console.log(displayInput);
     // console.log(content);
     const handleEdit = async (id) => {
+        setLoading(true);
         try {
             const response = await axios.put(`http://localhost:8080/api/v1/comments/edit-comment/${id}`,
                 {
@@ -155,8 +233,26 @@ const ListCommentsByNews = () => {
             setDisplayInput('');
             setContent('');
             queryListComments();
+            message.success((response.data.message), 2)
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     return (
@@ -236,6 +332,7 @@ const ListCommentsByNews = () => {
                     </button>
                 </div>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }

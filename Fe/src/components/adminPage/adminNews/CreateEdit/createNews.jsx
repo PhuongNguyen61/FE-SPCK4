@@ -1,19 +1,26 @@
-import { useState, useContext, useRef } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import axios from 'axios';
+import { message } from "antd";
 // Store
 import { Store } from '../../../../Store';
 // imgs
 import AddImg from '/public/imgs/addImg.png'
 //
+import Loading from "../../../Loading";
 import './style.css';
 
 const CreateNews = () => {
-    // navigate
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 500);
+        return () => clearTimeout(timer);
+    }, []);
     const navigate = useNavigate();
-    // store lấy accessToken crrUser
     const store = useContext(Store);
     let accessToken;
     if (store.currentUser) {
@@ -48,6 +55,7 @@ const CreateNews = () => {
     };
     // submit
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault();
         const payloadFormData = new FormData();
         payloadFormData.append('title', title);
@@ -64,16 +72,47 @@ const CreateNews = () => {
         payloadFormData.append('isStatus', isStatus);
         try {
             const response = await axios.post(`http://localhost:8080/api/v1/news/create-news`, payloadFormData,
-            {
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    "Content-type": "multipart/form-data",
-                },
-            });
-            alert(response.data.message);
-            navigate('/admin/news/all');
+                {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`,
+                        "Content-type": "multipart/form-data",
+                    },
+                }
+            );
+            if (isStatus === 'published') {
+                message.loading('Đang xuất bản!', 1)
+                .then(() => {
+                    message.success((response.data.message), 2);
+                    setLoading(false);
+                    navigate('/admin/news/all');
+                });
+            };
+            if (isStatus === 'draft') {
+                message.loading('Đang lưu nháp!', 1)
+                .then(() => {
+                    message.success((response.data.message), 2);
+                    setLoading(false);
+                    navigate('/admin/news/all');
+                });
+            };
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+            setLoading(false);
         }
     };
     return (
@@ -121,6 +160,7 @@ const CreateNews = () => {
                     </div>
                 </div>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }

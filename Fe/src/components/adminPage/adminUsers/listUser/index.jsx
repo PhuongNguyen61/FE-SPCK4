@@ -2,6 +2,7 @@ import { useNavigate, useLocation, useParams } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import moment from "moment";
 import axios from "axios";
+import { message } from "antd";
 // Store
 import { Store } from "../../../../Store";
 // icons
@@ -49,7 +50,22 @@ const ListUsers = () => {
       setProvider(response.data.provider);
       setCustomer(response.data.customer);
     } catch (error) {
-      alert(error.response.data.message);
+      if (error.response && error.response.data && error.response.data.message) {
+        switch (error.response.data.message) {
+          case 'jwt expired': {
+            message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+            .then(() => {
+              store.setCurrentUser(null);
+              navigate('/login');
+            })
+            return
+          };
+          default:
+          return message.error((error.response.data.message));
+        }
+      } else {
+        message.error('Lỗi không xác định');
+      }
     } finally {
       setLoading(false);
     }
@@ -64,6 +80,7 @@ const ListUsers = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [listUsers, setListUsers] = useState([]);
   const queryListUsers = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
         `http://localhost:8080/api/v1/users?limit=${limit}&currentPage=${currentPage}&role=${role}`,
@@ -76,7 +93,24 @@ const ListUsers = () => {
       setListUsers(response.data.data);
       setTotalPages(response.data.totalPages);
     } catch (error) {
-      alert(error.response.data.message);
+      if (error.response && error.response.data && error.response.data.message) {
+        switch (error.response.data.message) {
+          case 'jwt expired': {
+            message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+            .then(() => {
+              store.setCurrentUser(null);
+              navigate('/login');
+            })
+            return
+          };
+          default:
+          return message.error((error.response.data.message));
+        }
+      } else {
+        message.error('Lỗi không xác định');
+      }
+    } finally {
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -109,6 +143,7 @@ const ListUsers = () => {
   };
   // xóa người dùng
   const handleDelete = async (id) => {
+    setLoading(true);
     try {
       const response = await axios.delete(
         `http://localhost:8080/api/v1/users/deleteUserById/${id}`,
@@ -120,8 +155,26 @@ const ListUsers = () => {
       );
       queryCountUsers();
       queryListUsers();
+      message.success((response.data.message), 2);
     } catch (error) {
-      alert(error.response.data.message);
+      if (error.response && error.response.data && error.response.data.message) {
+        switch (error.response.data.message) {
+          case 'jwt expired': {
+            message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'), 2)
+            .then(() => {
+              store.setCurrentUser(null);
+              navigate('/login');
+            })
+            return
+          };
+          default:
+          return message.error((error.response.data.message), 2);
+        }
+      } else {
+        message.error('Lỗi không xác định');
+      }
+    } finally {
+      setLoading(false);
     }
   };
   return (

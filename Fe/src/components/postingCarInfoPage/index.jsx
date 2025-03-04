@@ -21,6 +21,9 @@ const listBrand = [
   "Mazda",
   "Ford",
   "Subaru",
+  "Mercedes",
+  "Audi",
+  "BMW",
 ];
 
 const listYear = [
@@ -37,7 +40,7 @@ const listYear = [
   "2025",
 ];
 
-const listColor = ["Đỏ", "Đen", "Trắng", "Ghi", "Xanh lá", "Xanh dương", "Nâu"];
+const listColor = ["Đen", "Trắng", "Ghi", "Xám", "Đỏ", "Xanh lá", "Xanh dương", "Xanh Sodalite", "Nâu", "Vàng", "Tím", "Cam"];
 
 const PostingCarInfoPage = () => {
   const nav = useNavigate();

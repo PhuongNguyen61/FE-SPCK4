@@ -2,14 +2,17 @@ import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import { message } from "antd";
 //
 import { Store } from '../../Store';
 //
 import CommentIcon from '../../icons/newsDetailsPage/CommentIcon';
 //
+import Loading from '../Loading';
 import './style.css';
 
 const NewsDetailPage = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const store = useContext(Store);
     let accessToken;
@@ -27,6 +30,7 @@ const NewsDetailPage = () => {
     const [listNews, setListNews] = useState([]);
     const [listComments, setListComments] = useState([]);
     const queryNews = async () => {
+        setLoading(true);
         try {
             const queryNews = await axios.get(`http://localhost:8080/api/v1/news/${id}`);
             const data = queryNews.data.data;
@@ -42,7 +46,13 @@ const NewsDetailPage = () => {
             };
             setNews(data);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                message.error(error.response.data.message);
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -51,11 +61,12 @@ const NewsDetailPage = () => {
     // tạo bình luận mới
     const [content, setContent] = useState('');
     const handleSubmit = async (e) => {
+        setLoading(true);
+        e.preventDefault();
         const formData = {
             content,
             newsId: id,
         }
-        e.preventDefault();
         try {
             const response = await axios.post('http://localhost:8080/api/v1/comments/create-comment', formData,
                 {
@@ -65,10 +76,39 @@ const NewsDetailPage = () => {
                     },
                 }
             );
-            queryNews();
-            setContent('');
+            message.loading(('Đang gửi bình luận!'), 1)
+            .then(() => {
+                setLoading(false);
+                queryNews();
+                setContent('');
+            });
         } catch (error) {
-            alert(error.response.data.message);
+            setLoading(false);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt malformed': {
+                        message.error(('Bạn không thể thực hiện hành động, vui lòng đăng nhập!'))
+                        .then(() => {
+                            navigate('/login');
+                        })
+                        return
+                    }
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    case 'Tin tức chưa xuất bản, không thể bình luận!':
+                    return message.error(('Tin tức chưa xuất bản, không thể bình luận!'));
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
         }
     };
     return (
@@ -135,6 +175,7 @@ const NewsDetailPage = () => {
                     })}
                 </div>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }

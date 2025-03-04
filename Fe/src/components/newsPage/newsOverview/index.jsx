@@ -2,27 +2,37 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import { message } from "antd";
 //
+import Loading from '../../Loading';
 import './style.css';
 
 const NewsOverview = () => {
+    const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
     const [listCarNews, setListCarNews] = useState([]);
     const [listMarketNews, setListMarketNews] = useState([]);
     const [listExplore, setListExplore] = useState([]);
     const queryAllNews = async () => {
+        setLoading(true);
         try {
             const response = await axios.get('http://localhost:8080/api/v1/news/the3LatestNewsPerCategory');
             setListCarNews(response.data.dataListCarNews);
             setListMarketNews(response.data.dataListMarketNews);
             setListExplore(response.data.dataListExplore);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                message.error(error.response.data.message);
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
         queryAllNews();
     }, []);
-    const navigate = useNavigate();
     return (
         <div className='newsOverview'>
             <div className='grListNews'>
@@ -76,6 +86,7 @@ const NewsOverview = () => {
                     })}
                 </div>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }
