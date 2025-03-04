@@ -134,8 +134,8 @@
 }
 
 .header .gr .gr3_2 .grDropdown .dropdown .grProfile,
-.header .gr .gr3_2 .grDropdown .dropdown .grLogout,
-.header .gr .gr3_2 .grDropdown .dropdown .grWishList {
+.header .gr .gr3_2 .grDropdown .dropdown .grWishList,
+.header .gr .gr3_2 .grDropdown .dropdown .grLogout {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -152,7 +152,7 @@
   align-items: center;
   justify-content: center;
 }
-
+.header .gr .gr3_2 .grDropdown .dropdown .grWishList .wishIcon,
 .header .gr .gr3_2 .grDropdown .dropdown .grLogout .logoutIcon {
   width: 24px;
   height: 24px;
