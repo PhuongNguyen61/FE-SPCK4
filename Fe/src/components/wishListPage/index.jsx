@@ -1,20 +1,42 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import './style.css';
 import slider from "../../../public/imgs/background.png"
 import CarFrame2 from '../carFrame/carFrameStyle2';
 
+import { Store } from '../../Store';
+
 import IconLeft from '../../icons/categoryPage/IconLeft';
 import IconRight from '../../icons/categoryPage/IconRight';
+import Loading from "../Loading"
+import like from "../../../public/imgs/like.png"
+
+import './style.css';
 
 const WishListPage = () => {
+  const userId = useParams();
+  const navigate = useNavigate();
+  const store = useContext(Store);
   const [wishlist, setWishlist] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const carsPerPage = 9;
+  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (!store.currentUser) {
+      navigate('/');
+    };
+    if (store.currentUser) {
+      const currentId = store.currentUser._id;
+      if (userId !== currentId) {
+        navigate(`/wishList/${currentId}`);
+      };
+    };
+  }, []);
 
   useEffect(() => {
     const fetchWishlist = async () => {
+      setLoading(true);
       try {
         const user = JSON.parse(localStorage.getItem("currentUser"));
         if (!user) return;
@@ -29,10 +51,15 @@ const WishListPage = () => {
         setTotalPages(response.data.totalPages);
       } catch (error) {
         console.error("Error fetching wishlist:", error.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchWishlist();
   }, [currentPage]);
+  if (!wishlist) {
+    return <Loading></Loading>;
+  }
 
 
   const handlePageChange = (newPage) => {
@@ -53,36 +80,45 @@ const WishListPage = () => {
           <h1>My Wish List</h1>
         </div>
       </div>
-
-      <div className='wishlistIn'>
-        <h3 className="title">
-          Bạn có <span>{wishlist.length}</span> xe yêu thích
-        </h3>
-        <div className="listCar">
-          {wishlist && wishlist.length > 0 ? (
-            wishlist.map((car, index) => <CarFrame2 key={index} car={car} />)
-          ) : (
-            <>Không có xe nào</>
-          )}
+      {wishlist.length > 0 ? (
+        <div className='wishlistIn'>
+          <h3 className="title">
+            Bạn có <span>{wishlist.length}</span> xe yêu thích
+          </h3>
+          <div className="listCar">
+            {wishlist && wishlist.length > 0 ? (
+              wishlist.map((car, index) => <CarFrame2 key={index} car={car} />)
+            ) : (
+              <>Không có xe nào</>
+            )}
+          </div>
+          <div className="pagination">
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <IconLeft></IconLeft>
+            </button>
+            <span>
+              Trang {currentPage}/{totalPages}
+            </span>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <IconRight></IconRight>
+            </button>
+          </div>
         </div>
-        <div className="pagination">
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <IconLeft></IconLeft>
-          </button>
-          <span>
-            Trang {currentPage}/{totalPages}
-          </span>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            <IconRight></IconRight>
-          </button>
+      ):(
+        <div className='noneWishlist'>
+          <p>Hiện tại bạn chưa có chiếc xe yêu thích nào.</p>
+          <img src={like} alt="" />
+          <p>Hãy thêm những chiếc yêu thích của bạn vào đây nào!</p>
         </div>
-      </div>
+      )}
+      
+      {loading && <Loading></Loading>}
     </div>
   )
 }

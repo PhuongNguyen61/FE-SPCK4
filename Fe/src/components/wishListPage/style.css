@@ -45,3 +45,14 @@
   background-color: inherit;
   padding: 5px;
 }
+.noneWishlist{
+  text-align: center;
+  margin: 50px 0px;
+}
+.noneWishlist img{
+  width: 350px;
+  height: 350px;
+}
+.noneWishlist p{
+ font-size: 30px;
+}

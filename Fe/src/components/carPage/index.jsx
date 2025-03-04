@@ -76,7 +76,7 @@ const CarDetailPage = () => {
   // const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    // const user = JSON.parse(localStorage.getItem("currentUser"));
+    const user = JSON.parse(localStorage.getItem("currentUser"));
     // const accessToken = user.accessToken;
 
     const fetchCarData = async () => {
@@ -102,7 +102,7 @@ const CarDetailPage = () => {
           if (w._id == idCar) {
             setBtnLikeProduct(true);
           }
-        });
+        })
       } catch (error) {
         console.error("Error fetching car data:", error.message);
       }
@@ -127,38 +127,28 @@ const CarDetailPage = () => {
       const user = JSON.parse(localStorage.getItem("currentUser"));
       const accessToken = user.accessToken;
       if (!accessToken) {
-        message.error("Please login to add to wishlist");
+        alert("Please login to add to wishlist");
         return;
       }
 
       if (!btnLikeProduct) {
-        await axios
-          .post(
-            `http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          )
-          .then((response) => {
-            console.log(response);
-          });
+        await axios.post(`http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }).then(response => {
+          console.log(response);
+        })
 
         setBtnLikeProduct(true);
       } else {
-        await axios
-          .delete(
-            `http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          )
-          .then((response) => {
-            console.log(response);
-          });
+        await axios.delete(`http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }).then(response => {
+          console.log(response);
+        });
         setBtnLikeProduct(false);
       }
     } catch (error) {

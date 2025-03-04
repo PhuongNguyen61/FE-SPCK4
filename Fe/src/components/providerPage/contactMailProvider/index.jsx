@@ -1,9 +1,11 @@
 //library
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import { message } from "antd";
 import { useParams } from "react-router-dom";
 import moment from "moment";
+// store
+import { Store } from "../../../Store";
 //icon
 import WarningIcon from "../../../icons/provider/warning";
 import MailNotSeen from "../../../icons/provider/mailNotSeen";
@@ -12,6 +14,7 @@ import MailSeen from "../../../icons/provider/mailSeen";
 import "./style.css";
 
 const ContactMailManage = () => {
+  const store = useContext(Store);
   const [listMail, setListMail] = useState([]);
   const [selectedMail, setSelectedMail] = useState(null);
   const [decision, setDecision] = useState(""); // "chấp thuận" hoặc "từ chối"
@@ -21,9 +24,13 @@ const ContactMailManage = () => {
   console.log(idUser);
 
   //
-  const crrUser = localStorage.getItem("currentUser");
-  const userObj = JSON.parse(crrUser);
-  const accessToken = userObj.accessToken;
+  let accessToken;
+  if (store.currentUser) {
+    accessToken = store.currentUser.accessToken;
+  }
+  // const crrUser = localStorage.getItem("currentUser");
+  // const userObj = JSON.parse(crrUser);
+  // const accessToken = userObj.accessToken;
 
   useEffect(() => {
     const fetchListMailData = async () => {
