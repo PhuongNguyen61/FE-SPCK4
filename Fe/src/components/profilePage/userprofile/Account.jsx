@@ -89,14 +89,14 @@ const Account = () => {
           </button>
         </div> */}
         {userData.role === 'PROVIDER' ? (
-          <div className="provider">
-            <button className="btn-provider" onClick={() => navigate(`/provider/${store.currentUser._id}`)}>
+          <div className="provider pro">
+            <button className="btn-provider btn" onClick={() => navigate(`/provider/${store.currentUser._id}`)}>
               Quản lý tin đăng bán và đơn hàng
             </button>
           </div>
         ) : (
-          <div className="registerProvider">
-            <button className="btn-registerProvider" onClick={() => navigate(`/provider/${store.currentUser._id}`)}>
+          <div className="registerProvider pro">
+            <button className="btn-registerProvider btn" onClick={() => navigate(`/`)}>
               Đăng ký trở thành nhà cung cấp
             </button>
           </div>

@@ -2,8 +2,9 @@
 import FolderIcon from "../../icons/carDetailPage/FolderIcon";
 import LogoutIcon from "../../icons/header/LogoutIcon";
 import Loading from "../Loading";
+import { Store } from "../../Store";
 // librarys
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { message } from "antd"; //Thông báo
 import { useNavigate } from "react-router-dom";
@@ -43,7 +44,19 @@ const listYear = [
 const listColor = ["Đen", "Trắng", "Ghi", "Xám", "Đỏ", "Xanh lá", "Xanh dương", "Xanh Sodalite", "Nâu", "Vàng", "Tím", "Cam"];
 
 const PostingCarInfoPage = () => {
+  const store = useContext(Store);
   const nav = useNavigate();
+  useEffect(() => {
+    if (!store.currentUser) {
+      nav('/');
+    };
+    if (store.currentUser) {
+      const role = store.currentUser.role;
+      if (role !== 'PROVIDER') {
+          nav('/');
+      };
+    };
+  }, []);
   const [fileCount, setFileCount] = useState(0); //đếm số lượng ảnh
   const [carName, setCarName] = useState(null);
   const [carPrice, setCarPrice] = useState(null);
@@ -65,10 +78,16 @@ const PostingCarInfoPage = () => {
   const [describe, setDescribe] = useState("");
   const [loading, setLoading] = useState(false);
   //Lấy token
-  const crrUser = localStorage.getItem("currentUser");
-  const userObj = JSON.parse(crrUser); // Chuyển chuỗi JSON thành object
-  const accessToken = userObj.accessToken;
-  const idUser = userObj._id;
+  let accessToken;
+  let idUser;
+  if (store.currentUser) {
+    accessToken = store.currentUser.accessToken;
+    idUser = store.currentUser._id
+  }
+  // const crrUser = localStorage.getItem("currentUser");
+  // const userObj = JSON.parse(crrUser); // Chuyển chuỗi JSON thành object
+  // const accessToken = userObj.accessToken;
+  // const idUser = userObj._id;
   //Hàm thay đổi file ảnh
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);

@@ -1,20 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import './style.css';
 import slider from "../../../public/imgs/background.png"
 import CarFrame2 from '../carFrame/carFrameStyle2';
+
+import { Store } from '../../Store';
 
 import IconLeft from '../../icons/categoryPage/IconLeft';
 import IconRight from '../../icons/categoryPage/IconRight';
 import Loading from "../Loading"
 import like from "../../../public/imgs/like.png"
 
+import './style.css';
+
 const WishListPage = () => {
+  const userId = useParams();
+  const navigate = useNavigate();
+  const store = useContext(Store);
   const [wishlist, setWishlist] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const carsPerPage = 9;
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    if (!store.currentUser) {
+      navigate('/');
+    };
+    if (store.currentUser) {
+      const currentId = store.currentUser._id;
+      if (userId !== currentId) {
+        navigate(`/wishList/${currentId}`);
+      };
+    };
+  }, []);
 
   useEffect(() => {
     const fetchWishlist = async () => {
