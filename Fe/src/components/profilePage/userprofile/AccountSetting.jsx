@@ -116,23 +116,11 @@ const AccountSetting = () => {
             <Form.Item
               name="username"
               label="User Name"
-              rules={[{ required: true, message: 'Vui lòng nhập tên người dùng!' }]}
+              rules={[{ required: true, message: 'Vui lòng nhập Username!' }]}
             >
               <Input
-                placeholder="Vui lòng nhập tên người dùng!"
+                placeholder="Vui lòng nhập Username!"
                 onChange={(e) => onChange('username', e.target.value)}
-              />
-            </Form.Item>
-          </Col>
-          <Col span={24}>
-            <Form.Item
-              name="fullname"
-              label="Họ Và Tên"
-              rules={[{ required: true, message: 'Vui lòng nhập họ và tên!' }]}
-            >
-              <Input
-                placeholder="Vui lòng nhập tên người dùng!"
-                onChange={(e) => onChange('fullname', e.target.value)}
               />
             </Form.Item>
           </Col>
@@ -143,8 +131,20 @@ const AccountSetting = () => {
               rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
             >
               <Input
-                placeholder="Vui lòng nhập tên người dùng!"
+                placeholder="Vui lòng nhập Email!"
                 onChange={(e) => onChange('email', e.target.value)}
+              />
+            </Form.Item>
+          </Col>
+          <Col span={24}>
+            <Form.Item
+              name="fullname"
+              label="Họ tên"
+              rules={[{ required: true, message: 'Vui lòng nhập họ tên!' }]}
+            >
+              <Input
+                placeholder="Vui lòng nhập họ tên!"
+                onChange={(e) => onChange('fullname', e.target.value)}
               />
             </Form.Item>
           </Col>
@@ -152,7 +152,7 @@ const AccountSetting = () => {
           <Col span={24}>
             <Form.Item
               name="phoneNumber"
-              label="Số Điện Thoại"
+              label="Số điện thoại"
               rules={[{ required: true, message: 'Vui lòng nhập số điện thoại!' }]}
             >
               <Input
@@ -165,7 +165,7 @@ const AccountSetting = () => {
           <Col span={24}>
             <Form.Item
               name="address"
-              label="Địa Chỉ"
+              label="Địa chỉ"
               rules={[{ required: true, message: 'Vui lòng nhập số địa chỉ!' }]}
             >
               <Input
@@ -178,8 +178,8 @@ const AccountSetting = () => {
           <Col span={24}>
             <Form.Item
               name="dateOfBirth"
-              label="Ngày Tháng Năm Sinh"
-              rules={[{ required: true, message: 'Vui lòng nhập ngày tháng năm sinh!' }]}
+              label="Ngày Sinh"
+              rules={[{ required: true, message: 'Vui lòng nhập ngày sinh!' }]}
             >
               <DatePicker onChange={(date) => onChange('dateOfBirth', date)} disabledDate={(current) => {
                 return (
@@ -214,7 +214,7 @@ const AccountSetting = () => {
             )} */}
           </Col>
 
-          <Form.Item wrapperCol={{ offset: 6, span: 16 }}>
+          <Form.Item wrapperCol={{ offset: 2, span: 16 }}>
             <Button type="primary" onClick={ModifyUserData} >
               Xác Nhận
             </Button>

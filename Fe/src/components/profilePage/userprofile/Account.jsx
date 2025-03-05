@@ -63,31 +63,14 @@ const Account = () => {
           <img src={userData.avatar} alt="" />
         </div>
         <div className="text">
-          <p>Họ Và Tên: {userData.fullname}</p>
-          <p>User Name: {userData.username} </p>
+          <p>Username: {userData.username} </p>
           <p>Email: {userData.email} </p>
-          <p>Role: {userData.role} </p>
-          {/* <p>Full name: {userData.fullname} </p> */}
-          <p>Ngày Tháng Năm Sinh: {formatDate(userData.dateOfBirth)} </p>
-          <p>Địa Chỉ: {userData.address} </p>
-          <p>Số Điện Thoại: {userData.phoneNumber} </p>
+          <p>Họ tên: {userData.fullname}</p>
+          <p>Số điện thoại: {userData.phoneNumber} </p>
+          <p>Địa chỉ: {userData.address} </p>
+          <p>Ngày sinh: {formatDate(userData.dateOfBirth)} </p>
+          {/* <p>Role: {userData.role} </p> */}
         </div>
-        {/* <Button onClick={() => navigate(`/provider/${store.currentUser._id}`)}>
-          {" "}
-          PostingCar
-        </Button> */}
-        {/* <div className="provider">
-          <button className="btn-provider" onClick={() => navigate(`/provider/${store.currentUser._id}`)}>
-            {" "}
-            Quản lý tin đăng bán và đơn hàng
-          </button>
-        </div>
-        <div className="registerProvider">
-          <button className="btn-registerProvider" onClick={() => navigate(`/provider/${store.currentUser._id}`)}>
-            {" "}
-            Quản lý tin đăng bán và đơn hàng
-          </button>
-        </div> */}
         {userData.role === 'PROVIDER' ? (
           <div className="provider pro">
             <button className="btn-provider btn" onClick={() => navigate(`/provider/${store.currentUser._id}`)}>
