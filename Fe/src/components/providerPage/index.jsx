@@ -1,4 +1,3 @@
-
 import { Store } from "../../Store";
 
 import { useContext, useEffect } from "react";
@@ -10,16 +9,16 @@ const ProviderPage = () => {
   const providerId = useParams();
   const nav = useNavigate();
   const store = useContext(Store);
-  useEffect (() => {
+  useEffect(() => {
     if (!store.currentUser) {
-      nav('/');
-    };
+      nav("/");
+    }
     if (store.currentUser) {
       const role = store.currentUser.role;
-      if (role !== 'PROVIDER') {
-        nav('/');
-      };
-    };
+      if (role !== "PROVIDER") {
+        nav("/");
+      }
+    }
     if (store.currentUser) {
       const currentId = store.currentUser._id;
       const currentRole = store.currentUser.role;
@@ -31,7 +30,7 @@ const ProviderPage = () => {
         }
       };
     };
-  }, [])
+  }, []);
   return (
     <div className="ProviderPageTL">
       <div className="ProviderPageTLHeader">
