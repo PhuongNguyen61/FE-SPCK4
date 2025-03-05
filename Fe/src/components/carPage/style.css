@@ -1,8 +1,9 @@
 div.CarDetailPage {
+  padding: 5vw;
 }
 
 div.CarDetailPage div.frame0 {
-  margin: 40px 60px 20px 60px;
+  margin: 0 60px 20px 60px;
 }
 
 div.CarDetailPage div.frame0 h1 {
@@ -22,30 +23,33 @@ div.CarDetailPage div.frame0 div.brand {
 
 /* imgReviewCar */
 div.CarDetailPage div.imgReviewCar {
+  width: 90vw;
   display: flex;
-  flex-direction: column;
-  gap: 40px;
+  flex-direction: row;
+  justify-content: space-between;
+  /* gap: 40px; */
   margin-bottom: 74px;
 }
 
 div.CarDetailPage div.imgReviewCar div.mainImgRV {
-  width: 100%;
+  /* width: 100%; */
   position: relative;
 }
 
 div.CarDetailPage div.imgReviewCar div.mainImgRV img {
-  width: 100%;
-  /* height: 633px; */
+  width: 74vw;
+  height: 37vw;
 }
 
 div.CarDetailPage div.imgReviewCar div.mainImgRV div.changeImgFrame {
   width: 100%;
   position: absolute;
-  top: 300px;
+  top: 50%;
   padding: 0 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  transform: translateY(-50%);
 }
 
 div.CarDetailPage div.imgReviewCar div.mainImgRV div.changeImgFrame button {
@@ -61,9 +65,9 @@ div.CarDetailPage div.imgReviewCar div.mainImgRV div.changeImgFrame button {
 
 div.CarDetailPage div.imgReviewCar div.listImgRV {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  padding: 0 80px;
+  /* padding: 0 80px; */
 }
 
 div.CarDetailPage div.imgReviewCar div.listImgRV img {
@@ -77,7 +81,6 @@ div.CarDetailPage div.imgReviewCar div.listImgRV div.item.active img {
 
 /* allCarInformation */
 div.CarDetailPage div.allCarInformation {
-  padding: 0 80px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
