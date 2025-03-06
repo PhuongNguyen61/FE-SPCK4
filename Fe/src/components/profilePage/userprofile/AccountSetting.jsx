@@ -73,8 +73,10 @@ const AccountSetting = () => {
   };
 
   let accessToken;
+  let role;
   if (store.currentUser) {
     accessToken = store.currentUser.accessToken;
+    role = store.currentUser.role;
   }
 
   const ModifyUserData = async () => {
@@ -123,33 +125,34 @@ const AccountSetting = () => {
     <div className="accountsetting">
       <Form layout="vertical">
         <Row gutter={16}>
-          <Col span={24}>
-            <Form.Item
-              name="username"
-              label="User Name"
-
-              rules={[{ required: true, message: 'Vui lòng nhập Username!' }]}
-            >
+          {role !== 'ADMIN' ?
+            <Col span={24}>
+              <Form.Item
+                name="username"
+                label="Username"
+                rules={[{ required: true, message: 'Vui lòng nhập Username!' }]}
+              >
               <Input
                 placeholder="Vui lòng nhập Username!"
                 onChange={(e) => onChange('username', e.target.value)}
-
               />
             </Form.Item>
-          </Col>
-          <Col span={24}>
-            <Form.Item
-
+            </Col> : ''
+          }
+          {role !== 'ADMIN' ?
+            <Col span={24}>
+              <Form.Item
               name="email"
               label="Email"
               rules={[{ required: true, message: 'Vui lòng nhập email!' }]}
-            >
-              <Input
-                placeholder="Vui lòng nhập Email!"
-                onChange={(e) => onChange('email', e.target.value)}
-              />
-            </Form.Item>
-          </Col>
+              >
+                <Input
+                  placeholder="Vui lòng nhập Email!"
+                  onChange={(e) => onChange('email', e.target.value)}
+                />
+              </Form.Item>
+            </Col> : ''
+          }
           <Col span={24}>
             <Form.Item
 

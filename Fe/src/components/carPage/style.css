@@ -1,17 +1,14 @@
 div.CarDetailPage {
-  padding: 5vw;
+  padding: 30px 7.5vw;
 }
 
 div.CarDetailPage div.frame0 {
-  margin: 0 60px 20px 60px;
-}
-
-div.CarDetailPage div.frame0 h1 {
+  margin-bottom: 30px;
 }
 
 div.CarDetailPage div.frame0 h1 span {
   font-weight: 500;
-  color: rgb(82, 82, 228);
+  color: #3563E9;
 }
 
 div.CarDetailPage div.frame0 div.brand {
@@ -23,29 +20,29 @@ div.CarDetailPage div.frame0 div.brand {
 
 /* imgReviewCar */
 div.CarDetailPage div.imgReviewCar {
-  width: 90vw;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* gap: 40px; */
-  margin-bottom: 74px;
+  margin-bottom: 60px;
+  gap: 2%;
 }
 
 div.CarDetailPage div.imgReviewCar div.mainImgRV {
-  /* width: 100%; */
+  width: 83%;
   position: relative;
 }
 
 div.CarDetailPage div.imgReviewCar div.mainImgRV img {
-  width: 74vw;
-  height: 37vw;
+  width: 100%;
+  aspect-ratio: 2/1;
+  object-fit: cover;
 }
 
 div.CarDetailPage div.imgReviewCar div.mainImgRV div.changeImgFrame {
   width: 100%;
   position: absolute;
   top: 50%;
-  padding: 0 60px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -61,22 +58,37 @@ div.CarDetailPage div.imgReviewCar div.mainImgRV div.changeImgFrame button {
   background-color: inherit;
   border: none;
   transition: 0.3s;
+  cursor: pointer;
+}
+
+div.CarDetailPage div.imgReviewCar div.mainImgRV div.changeImgFrame button:hover svg {
+  transition: all 0.5s ease;
+}
+
+div.CarDetailPage div.imgReviewCar div.mainImgRV div.changeImgFrame button:hover svg {
+  fill: #3563E9;
 }
 
 div.CarDetailPage div.imgReviewCar div.listImgRV {
+  width: 15%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* padding: 0 80px; */
 }
 
-div.CarDetailPage div.imgReviewCar div.listImgRV img {
-  height: 90px;
-  width: 193px;
+div.CarDetailPage div.imgReviewCar div.listImgRV div.item {
+  width: 100%;
+  cursor: pointer;
+}
+
+div.CarDetailPage div.imgReviewCar div.listImgRV div.item img {
+  width: 100%;
+  aspect-ratio: 2/1;
+  object-fit: cover;
 }
 
 div.CarDetailPage div.imgReviewCar div.listImgRV div.item.active img {
-  border: 2px solid blue;
+  border: 2px solid #3563E9;
 }
 
 /* allCarInformation */
@@ -84,7 +96,7 @@ div.CarDetailPage div.allCarInformation {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin-bottom: 60px;
+  margin-bottom: 30px;
 }
 
 /* allCarInformation-frameLeft */
@@ -111,13 +123,18 @@ div.allCarInformation div.frameLeft div.loveAndShareFrame {
   justify-content: space-between;
 }
 
-div.allCarInformation div.frameLeft div.loveAndShareFrame div.likeFrame:hover {
-  color: blue;
+div.allCarInformation div.frameLeft div.loveAndShareFrame .item {
+  cursor: pointer;
+  transition: all 0.5s ease;
 }
 
-div.allCarInformation div.frameLeft div.loveAndShareFrame div.shareFrame:hover {
-  color: blue;
+div.allCarInformation div.frameLeft div.loveAndShareFrame .item:hover {
+  color: #3563E9;
 }
+
+/* div.allCarInformation div.frameLeft div.loveAndShareFrame div.shareFrame:hover {
+  color: #3563E9;
+} */
 
 div.allCarInformation div.frameLeft div.loveAndShareFrame div.item {
   display: flex;
@@ -132,8 +149,9 @@ div.allCarInformation div.frameLeft div.loveAndShareFrame div.line {
 }
 
 /* allCarInformation-frameLeft section2*/
-div.allCarInformation div.frameLeft div.section2 {
-}
+
+/* div.allCarInformation div.frameLeft div.section2 {
+} */
 
 /* allCarInformation-frameLeft section3*/
 
@@ -159,13 +177,6 @@ div.CarDetailPage div.allCarInformation div.frameLeft div.DealerInfo div.item {
   padding: 10px;
   resize: none; /* Không cho phép kéo dài */
   /* outline: none; */
-}
-
-.CarDetailPage input:focus,
-.CarDetailPage textarea:focus {
-  border: 1px solid #3563e9;
-  transition: all 0.5s ease;
-  background-color: #00000020;
 }
 
 /* div.CarDetailPage div.allCarInformation div.frameLeft div.DealerInfo div.line {
@@ -211,16 +222,21 @@ div.allCarInformation div.frameLeft div.section4 form {
 }
 
 div.allCarInformation div.frameLeft div.section4 form input {
+  font-size: 14px;
   height: 40px;
   width: 100%;
   padding: 2px 10px;
+  outline: none;
+  border-radius: 5px;
+  border: 1px solid #DDDDDD;
+  transition: all 0.5s ease;
 }
 
 div.allCarInformation div.frameLeft div.section4 form div.item h3 {
   margin-bottom: 5px;
 }
 
-div.allCarInformation div.frameLeft div.section4 form div.item h3 sup {
+div.allCarInformation div.frameLeft div.section4 form div.item h4 sup {
   color: red;
 }
 
@@ -231,17 +247,32 @@ div.allCarInformation div.frameLeft div.section4 form div.userNameAndEmail {
   justify-content: space-between;
 }
 
+div.allCarInformation div.frameLeft div.section4 form .item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 div.allCarInformation
   div.frameLeft
   div.section4
   form
   div.userNameAndEmail
   input {
-  width: 304px;
+    width: 304px;
 }
 
-div.allCarInformation div.frameLeft div.section4 form div.comment input {
-  height: 200px;
+div.allCarInformation div.frameLeft div.section4 form div.comment textarea {
+  height: 150px;
+  outline: none;
+  border-radius: 5px;
+  transition: all 0.5s ease;
+}
+
+div.allCarInformation div.frameLeft div.section4 form input:focus,
+div.allCarInformation div.frameLeft div.section4 form textarea:focus {
+  border: 1px solid #3563E9;
+  background-color: #00000020;
 }
 
 div.allCarInformation div.frameLeft div.section4 form button {
@@ -252,17 +283,21 @@ div.allCarInformation div.frameLeft div.section4 form button {
   background-color: inherit;
   transition: 0.5s;
   border-radius: 10px;
+  cursor: pointer;
 }
 
 div.allCarInformation div.frameLeft div.section4 form button:hover {
-  color: blue;
-  border: 2px solid blue;
+  color: #3563E9;
+  border: 2px solid #3563E9;
 }
+
+
+
 /* allCarInformation-frameRight */
 div.CarDetailPage div.allCarInformation div.frameRight {
   border: 1px solid black;
   width: 395px;
-  max-height: 360px;
+  /* max-height: 360px; */
   padding: 20px 26px;
   display: flex;
   flex-direction: column;
@@ -302,7 +337,6 @@ div.CarDetailPage div.allCarInformation div.frameRight div.section {
 }
 
 div.CarDetailPage div.allCarInformation div.frameRight div.section h4 {
-  margin-bottom: 10px;
   display: flex;
   justify-content: center;
   transition: 0.5s;
@@ -310,10 +344,10 @@ div.CarDetailPage div.allCarInformation div.frameRight div.section h4 {
 
 div.CarDetailPage div.allCarInformation div.frameRight div.section div.content {
   position: absolute;
-  width: 330px;
+  width: 320px;
   display: flex;
   flex-direction: column;
-  top: 40px;
+  top: 30px;
   transform: translateY(40px);
   transition: 1s;
   padding: 10px;
@@ -325,6 +359,9 @@ div.CarDetailPage div.allCarInformation div.frameRight div.section div.row {
   justify-content: space-between;
   opacity: 0;
   transition: 0.5s;
+  font-size: 14px;
+  padding: 5px 0;
+  border-top: 1px solid #DDD;
 }
 
 div.CarDetailPage
@@ -349,12 +386,12 @@ div.CarDetailPage div.allCarInformation div.frameRight div.line {
   border: 1px solid black;
 }
 
-div.CarDetailPage div.allCarInformation div.frameRight div.section1:hover {
-  height: 170px;
+div.CarDetailPage div.allCarInformation div.frameRight div.section {
+  cursor: pointer;
 }
 
-div.CarDetailPage div.allCarInformation div.frameRight div.section2:hover {
-  height: 170px;
+div.CarDetailPage div.allCarInformation div.frameRight div.section:hover {
+  height: 205px;
 }
 
 div.CarDetailPage div.allCarInformation div.frameRight div.section1:hover h4 {
@@ -365,18 +402,10 @@ div.CarDetailPage div.allCarInformation div.frameRight div.section2:hover h4 {
   transform: translateX(-80px);
 }
 
-div.CarDetailPage
-  div.allCarInformation
-  div.frameRight
-  div.section:hover
-  div.content {
+div.CarDetailPage div.allCarInformation div.frameRight div.section:hover div.content {
   transform: translate(0);
 }
 
-div.CarDetailPage
-  div.allCarInformation
-  div.frameRight
-  div.section:hover
-  div.row {
+div.CarDetailPage div.allCarInformation div.frameRight div.section:hover div.row {
   opacity: 1;
 }

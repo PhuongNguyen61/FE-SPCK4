@@ -1,27 +1,49 @@
-.account .form{
-  margin: 20px 0px;
+.account .form {
   display: flex;
   flex-direction: column;
-
+  gap: 30px;
+  margin: 30px 0 40px 0;
 }
-.account .form .avatar{
-    display: flex;
-    justify-content: center;
-}
-.account .form .avatar img{
-  width: 200px;
-  height: 200px;
-  border-radius: 120px;
-}
-.account .form .text p {
-  font-size: 20px;
-  font-family: "Nunito", sans-serif;
-  margin: 20px;
+.account .form .avatar {
   display: flex;
   justify-content: center;
-  /* margin-right: 220px; */
+}
+.account .form .avatar img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border: 1px solid #eeeeee;
+  border-radius: 10px;
+}
+.account .form .otherInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
+.account .form .otherInfo > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.account .form .otherInfo > div h4 {
+  width: 120px;
+}
+
+.account .form .otherInfo > div input {
+  width: 350px;
+  height: 40px;
+  font-size: 18px;
+  outline: none;
+  border: 1px solid #2271b1;
+  border-radius: 5px;
+  padding: 0 10px;
+  color: #2271b1;
+}
+
+/* ////////////////////////////////////////// */
 
 .account .form .pro {
   width: 100%;
@@ -29,7 +51,7 @@
   justify-content: center;
 }
 
-.account .form .pro button{
+.account .form .pro button {
   all: unset;
   width: 280px;
   height: 50px;
@@ -48,17 +70,16 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  
 }
 
 .account .form .pro button::after,
 .account .form .pro button::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   right: 0;
   z-index: -99999;
-  transition: all .4s;
+  transition: all 0.4s;
 }
 
 .account .form .pro button::before {
