@@ -102,7 +102,7 @@ const CarDetailPage = () => {
           if (w._id == idCar) {
             setBtnLikeProduct(true);
           }
-        })
+        });
       } catch (error) {
         console.error("Error fetching car data:", error.message);
       }
@@ -132,23 +132,33 @@ const CarDetailPage = () => {
       }
 
       if (!btnLikeProduct) {
-        await axios.post(`http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }).then(response => {
-          console.log(response);
-        })
+        await axios
+          .post(
+            `http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response);
+          });
 
         setBtnLikeProduct(true);
       } else {
-        await axios.delete(`http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }).then(response => {
-          console.log(response);
-        });
+        await axios
+          .delete(
+            `http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${accessToken}`,
+              },
+            }
+          )
+          .then((response) => {
+            console.log(response);
+          });
         setBtnLikeProduct(false);
       }
     } catch (error) {
@@ -162,12 +172,13 @@ const CarDetailPage = () => {
 
   const handleCopy = () => {
     const currentURL = window.location.href;
-    navigator.clipboard.writeText(currentURL)
+    navigator.clipboard
+      .writeText(currentURL)
       .then(() => {
-        message.success('Đã sao chép đường dẫn!', 2);
+        message.success("Đã sao chép đường dẫn!", 2);
       })
       .catch((err) => {
-        message.error('Không thể sao chép đường dẫn: ', err);
+        message.error("Không thể sao chép đường dẫn: ", err);
       });
   };
 
