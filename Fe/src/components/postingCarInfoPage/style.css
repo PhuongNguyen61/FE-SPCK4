@@ -199,3 +199,10 @@
   grid-column-gap: 1%;
   grid-row-gap: 10%;
 }
+
+.PostingCarInfoPage .error {
+  color: red;
+  font-weight: 600;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+}
