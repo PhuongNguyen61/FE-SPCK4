@@ -1,8 +1,8 @@
 .account .form{
-  margin-top: 15px;
   display: flex;
   flex-direction: column;
-
+  gap: 30px;
+  margin: 30px 0 40px 0;
 }
 .account .form .avatar{
     display: flex;
@@ -11,15 +11,36 @@
 .account .form .avatar img{
   width: 200px;
   height: 200px;
-  border-radius: 120px;
+  object-fit: cover;
+  border: 1px solid #EEEEEE;
+  border-radius: 10px;
 }
-.account .form .text p {
-  font-size: 20px;
-  font-family: "Nunito", sans-serif;
-  margin: 20px;
+.account .form .otherInfo {
   display: flex;
-  justify-content: center;
-  /* margin-right: 220px; */
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.account .form .otherInfo > div {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.account .form .otherInfo > div h4 {
+  width: 120px;
+}
+
+.account .form .otherInfo > div input {
+  width: 350px;
+  height: 40px;
+  font-size: 18px;
+  outline: none;
+  border: 1px solid #2271B1;
+  border-radius: 5px;
+  padding: 0 10px;
+  color: #2271B1;
 }
 
 /* ////////////////////////////////////////// */

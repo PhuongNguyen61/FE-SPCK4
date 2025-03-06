@@ -160,6 +160,17 @@ const CarDetailPage = () => {
     return <Loading></Loading>;
   }
 
+  const handleCopy = () => {
+    const currentURL = window.location.href;
+    navigator.clipboard.writeText(currentURL)
+      .then(() => {
+        message.success('Đã sao chép đường dẫn!', 2);
+      })
+      .catch((err) => {
+        message.error('Không thể sao chép đường dẫn: ', err);
+      });
+  };
+
   return (
     <div className="CarDetailPage">
       <div className="frame0">
@@ -201,7 +212,7 @@ const CarDetailPage = () => {
               <div className="text">Yêu thích</div>
             </div>
             <div className="line"></div>
-            <div className="shareFrame item">
+            <div className="shareFrame item" onClick={handleCopy}>
               <ShareIcon></ShareIcon>
               <div className="text">Chia sẻ</div>
             </div>
@@ -247,9 +258,9 @@ const CarDetailPage = () => {
             <form action="" className="contactForm" onSubmit={handleSendMail}>
               <div className="userNameAndEmail">
                 <div className="userName item">
-                  <h3>
+                  <h4>
                     Tên <sup>*</sup>
-                  </h3>
+                  </h4>
                   <input
                     type="text"
                     placeholder="Tên"
@@ -258,9 +269,9 @@ const CarDetailPage = () => {
                   />
                 </div>
                 <div className="userEmail item">
-                  <h3>
+                  <h4>
                     Email <sup>*</sup>
-                  </h3>
+                  </h4>
                   <input
                     type="text"
                     placeholder="Email"
@@ -270,9 +281,9 @@ const CarDetailPage = () => {
                 </div>
               </div>
               <div className="item">
-                <h3>
+                <h4>
                   Số điện thoại <sup>*</sup>
-                </h3>
+                </h4>
                 <input
                   type="tel"
                   placeholder="Số điện thoại"
@@ -281,7 +292,7 @@ const CarDetailPage = () => {
                 />
               </div>
               <div className="item comment">
-                <h3>Bình luận</h3>
+                <h4>Bình luận</h4>
                 <textarea
                   className="carPageTextarea"
                   type="text"

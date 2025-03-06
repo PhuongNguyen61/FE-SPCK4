@@ -1,7 +1,7 @@
 const EnergyIcon = () => {
   return (
     <svg
-      fill="blue"
+      fill="#3563E9"
       width="20px"
       height="20px"
       viewBox="0 0 32 32"
