@@ -15,7 +15,6 @@ const listBrand = [
   "Mazda",
   "Ford",
   "Subaru",
-  "Hyundai",
   "Mercedes",
   "Audi",
   "BMW",

@@ -249,7 +249,7 @@ const ListCarsByProvider = () => {
                                 <p className='state'>{car.state}</p>
                                 <div className='time'>
                                     <p>{getStatusName(car.isStatus)}</p>
-                                    <p>{moment(car.createdAt).format('HH:mm, DD/MM/YYYY')}</p>
+                                    <p>{moment(car.updatedAt).format('HH:mm, DD/MM/YYYY')}</p>
                                 </div>
                                 <div className='action'>
                                     {car.isStatus === 'approved' ?
