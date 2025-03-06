@@ -1,5 +1,5 @@
 .account .form{
-  margin-top: 15px;
+  margin: 20px 0px;
   display: flex;
   flex-direction: column;
 
@@ -22,7 +22,6 @@
   /* margin-right: 220px; */
 }
 
-/* ////////////////////////////////////////// */
 
 .account .form .pro {
   width: 100%;
