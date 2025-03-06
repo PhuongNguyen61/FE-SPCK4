@@ -21,10 +21,15 @@ const ProviderPage = () => {
     }
     if (store.currentUser) {
       const currentId = store.currentUser._id;
+      const currentRole = store.currentUser.role;
       if (providerId !== currentId) {
-        nav(`/provider/${currentId}`);
-      }
-    }
+        if (currentRole === 'PROVIDER') {
+          nav(`/provider/${currentId}`);
+        } else {
+          nav('/');
+        }
+      };
+    };
   }, []);
   return (
     <div className="ProviderPageTL">
