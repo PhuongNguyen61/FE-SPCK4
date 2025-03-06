@@ -3,7 +3,7 @@
 }
 .bannerimg {
   width: 100%;
-  height: 250px;
+  height: 280px;
 }
 .bannerheading {
   position: absolute;
@@ -16,25 +16,111 @@
 }
 
 .wishlistIn h3 {
-  margin: 30px 30px;
+  margin: 40px;
 }
 
 .wishlistIn .listCar {
-  display: grid;
-  /* justify-content: space-around; */
-  grid-template-columns: repeat(3, 1fr);
+  display: grid; 
+  justify-content: center;
+  /* justify-content: space-around;
+  /* grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 0px;
-  grid-row-gap: 35px;
-  width: 1250px;
+  grid-row-gap: 35px; */
+  /* width: 1250px; */
   margin: 20px 25px;
+  gap: 50px;
 }
+
+/* *****************     test     **************************** */
+
+.wishlistIn .listCar .CarFrame{
+  display: flex;
+  justify-content: space-between;
+  border: 3px solid rgb(206, 199, 199);
+  border-radius: 20px;
+  width: 1000px;
+  height: 200px;
+}
+.wishlistIn .listCar img{
+  width: 300px;
+  height: 100%;
+  border-radius: 17px 0 0 17px;
+}
+.wishlistIn .listCar .CarFrame .carInfo{
+  width: 650px;
+  display: flex;
+  flex-direction:column;
+  gap: 5px;
+  
+  padding-top: 8px;
+  padding-right: 11px;
+}
+.wishlistIn .listCar .CarFrame .carInfo .state{
+  color: rgb(74, 74, 252);
+  border: 2px solid rgb(74, 74, 252);
+  width: 50px;
+  height: 25px;
+  border-radius: 5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.wishlistIn .listCar .CarFrame .carInfo .nameCar {
+  font-weight: 600;
+  font-size: 27px;
+  transition: 0.5s;
+}
+.wishlistIn .listCar .CarFrame .carInfo .Price {
+  font-size: 20px;
+  font-weight: 600;
+}
+.wishlistIn .listCar .CarFrame .carInfo .Price span {
+  color: red;
+  font-size: 22px;
+}
+.wishlistIn .listCar .CarFrame .carInfo .BrandAndCountry {
+  color: rgb(228, 50, 50);
+}
+.wishlistIn .listCar .CarFrame .carInfo .BrandAndCountry span {
+  color: blue;
+}
+.wishlistIn .listCar .CarFrame .carInfo .line {
+  border: 1px solid rgb(206, 199, 199);
+}
+.wishlistIn .listCar .CarFrame .carInfo .info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 600;
+  /* cursor: pointer; */
+  padding-top: 20px;
+}
+/* .wishlistIn .listCar .CarFrame .carInfo .info:hover {
+  color: red;
+} */
+.wishlistIn .listCar .CarFrame .carInfo .info .toDetailPage {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.wishlistIn .listCar .CarFrame .carInfo .info .toDetailPage:hover {
+  color: red;
+}
+/* *****************     test     **************************** */
 
 .pagination {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 40px;
+  margin: 40px 0px;
   gap: 10px;
 }
 
@@ -47,7 +133,7 @@
 }
 .noneWishlist{
   text-align: center;
-  margin: 50px 0px;
+  margin: 50px 0px 120px 0px;
 }
 .noneWishlist img{
   width: 350px;

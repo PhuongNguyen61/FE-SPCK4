@@ -177,7 +177,7 @@
 }
 
 .newsDetailsPage .right .listSameCategory .item .rightItem {
-    padding-left: 10px;
+    padding: 10px;
     display: flex;
     align-items: center;
     position: relative;

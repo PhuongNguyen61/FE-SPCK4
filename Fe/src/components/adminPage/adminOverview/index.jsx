@@ -1,11 +1,20 @@
+import { useState, useEffect } from 'react';
 // icons
 import Icon1 from '../../../icons/adminPage/Icon1';
 import Icon2 from '../../../icons/adminPage/Icon2';
 import Icon3 from '../../../icons/adminPage/Icon3';
 //
+import Loading from '../../Loading';
 import "./style.css"
 
 const AdminOverview = () => {
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 200);
+        return () => clearTimeout(timer);
+    }, []);
     return (
         <div className="adminOverview">
             <h3>Trang quản trị</h3>
@@ -37,6 +46,7 @@ const AdminOverview = () => {
                     </div>
                 </div>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }

@@ -1,6 +1,15 @@
+import { useState, useEffect } from 'react';
+import Loading from '../Loading';
 import './style.css';
 
 const IntroducePage = () => {
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 200);
+        return () => clearTimeout(timer);
+    }, []);
     return (
         <div className='introducePage'>
             <div className='title'>
@@ -63,6 +72,7 @@ const IntroducePage = () => {
                     <p>Hãy để Công ty ProCar là người bạn đồng hành đáng tin cậy mỗi khi bạn muốn sở hữu một chiếc mơ ước. Sự tin tưởng của bạn sẽ là động lực để chúng tôi mang lại niềm vui và sự hài lòng cho bạn!</p>
                 </div>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }

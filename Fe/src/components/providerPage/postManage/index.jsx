@@ -1,10 +1,13 @@
+// store
+import { Store } from "../../../Store";
+// components
 import CarFrame1 from "../../carFrame/carFrameStyle1";
 import EditPostProviderModal from "./EditModal";
 //icons
 import EditIcon from "../../../icons/provider/EditIcon";
 import BinIcon from "../../../icons/provider/BinIcon";
 //library
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd"; //Thông báo
@@ -13,6 +16,7 @@ import { message } from "antd"; //Thông báo
 import "./style.css";
 const PostManage = () => {
   const { idUser } = useParams();
+  const store = useContext(Store);
   //phần edit
   const [onOpenEditModal, setOnOpenEditModal] = useState(false);
   const [selectedCar, setSelectedCar] = useState(null);
@@ -21,9 +25,13 @@ const PostManage = () => {
   //xe của provider
   const [providerCar, setProviderCar] = useState([]);
   //Lấy token
-  const crrUser = localStorage.getItem("currentUser");
-  const userObj = JSON.parse(crrUser); // Chuyển chuỗi JSON thành object
-  const accessToken = userObj.accessToken;
+  let accessToken;
+  if (store.currentUser) {
+    accessToken = store.currentUser.accessToken;
+  }
+  // const crrUser = localStorage.getItem("currentUser");
+  // const userObj = JSON.parse(crrUser); // Chuyển chuỗi JSON thành object
+  // const accessToken = userObj.accessToken;
 
   //hàm mở modal sửa thông tin
   const openEditModal = (car) => {

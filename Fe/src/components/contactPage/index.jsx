@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import Loading from '../Loading';
 // svgs
 import PhoneIcon from '../../icons/contactPage/PhoneIcon';
 import EmailIcon from '../../icons/contactPage/EmailIcon';
@@ -6,6 +8,13 @@ import AddressIcon from '../../icons/contactPage/AddressIcon';
 import './style.css';   
 
 const ContactPage = () => {
+    const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 200);
+        return () => clearTimeout(timer);
+    }, []);
     return (
         <div className='contactPage'>
             <div className='title'>
@@ -61,6 +70,7 @@ const ContactPage = () => {
                     </div>
                 </div>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }

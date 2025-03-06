@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import Loading from '../Loading';
 // imgs
 import Background from "/public/imgs/background.png";
 import Laptop from "/public/imgs/homePage/laptop.png";
@@ -17,6 +19,13 @@ import "./style.css";
 
 const HomePage = () => {
   const nav = useNavigate();
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 200);
+    return () => clearTimeout(timer);
+  }, []);
   return (
     <div className="homePage">
       <section className="section1">
@@ -164,6 +173,7 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+      {loading && <Loading></Loading>}
     </div>
   );
 };

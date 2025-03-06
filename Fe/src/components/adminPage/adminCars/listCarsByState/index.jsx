@@ -2,18 +2,21 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom';
 import { useState, useEffect, useContext } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import { message } from "antd";
 // Store
 import { Store } from '../../../../Store';
 // icons
 import LeftArrowIcon from '../../../../icons/adminPage/LeftArrowIcon';
 import RightArrowIcon from '../../../../icons/adminPage/RightArrowIcon';
 //
+import Loading from "../../../Loading";
 import './style.css';
 
 const div = 'div'
 const activeDiv = 'activeDiv div'
 
 const ListCarsByState = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const store = useContext(Store);
     let accessToken;
@@ -32,6 +35,7 @@ const ListCarsByState = () => {
     const [approvedCars, setApprovedCars] = useState();
     const [pendingCars, setPendingCars] = useState();
     const queryCountCars = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/cars/countCarsByState/${splitPathname[5]}`,
                 {
@@ -44,7 +48,24 @@ const ListCarsByState = () => {
             setApprovedCars(response.data.approvedCars);
             setPendingCars(response.data.pendingCars);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -57,6 +78,7 @@ const ListCarsByState = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [listCars, setListCars] = useState([]);
     const queryListCars = async () => {
+        setLoading(true);
         try {
             const response = await axios.get(`http://localhost:8080/api/v1/cars/carByState?limit=${limit}&currentPage=${currentPage}&isStatus=${isStatus}&state=${splitPathname[5]}`,
                 {
@@ -68,7 +90,24 @@ const ListCarsByState = () => {
             setListCars(response.data.data);
             setTotalPages(response.data.totalPages);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -99,6 +138,7 @@ const ListCarsByState = () => {
     };
     // xóa xe
     const handleDelete = async (id) => {
+        setLoading(true);
         try {
             const response = await axios.delete(`http://localhost:8080/api/v1/cars/deletecar/${id}`,
                 {
@@ -109,12 +149,31 @@ const ListCarsByState = () => {
             );
             queryCountCars();
             queryListCars();
+            message.success((response.data.message), 2);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     // duyệt đăng bán xe
     const handleApproveCar = async (id, newStatus) => {
+        setLoading(true);
         try {
             const response = await axios.put(`http://localhost:8080/api/v1/cars/changeStatusCar/${id}`,
                 {
@@ -127,8 +186,26 @@ const ListCarsByState = () => {
             );
             queryCountCars();
             queryListCars();
+            message.success((response.data.message), 2);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                switch (error.response.data.message) {
+                    case 'jwt expired': {
+                        message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
+                        .then(() => {
+                            store.setCurrentUser(null);
+                            navigate('/login');
+                        })
+                        return
+                    };
+                    default:
+                    return message.error((error.response.data.message));
+                }
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     // đổi tên tình trạng
@@ -184,7 +261,7 @@ const ListCarsByState = () => {
                                 </div>
                                 <div className='time'>
                                     <p>{getStatusName(car.isStatus)}</p>
-                                    <p>{moment(car.createdAt).format('HH:mm, DD/MM/YYYY')}</p>
+                                    <p>{moment(car.updatedAt).format('HH:mm, DD/MM/YYYY')}</p>
                                 </div>
                                 <div className='action'>
                                     {car.isStatus === 'approved' ?
@@ -217,6 +294,7 @@ const ListCarsByState = () => {
                     </button>
                 </div>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }

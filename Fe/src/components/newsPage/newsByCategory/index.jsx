@@ -2,15 +2,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import axios from 'axios';
+import { message } from "antd";
 // icon
 import LeftArrowIcon from "../../../icons/newsPage/LeftArrowIcon";
 import RightArrowIcon from "../../../icons/newsPage/RightArrowIcon";
 import BookIcon from '../../../Icons/newsPage/BookIcon';
 import SearchIcon100px from '../../../Icons/newsPage/SearchIcon100px';
 //
+import Loading from '../../Loading';
 import './style.css';
 
 const NewsByCategory = () => {
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const {isCategory} = useParams();
     const [currentPage, setCurrentPage] = useState(1);
@@ -18,12 +21,19 @@ const NewsByCategory = () => {
     const [listNews, setListNews] = useState([]);
     const queryNewsByCategory = async () => {
         try {
+            setLoading(true);
             const response = await axios.get(`http://localhost:8080/api/v1/news/publishedByCategory?limit=4&currentPage=${currentPage}&isCategory=${isCategory}`);
             const data = response.data.data
             setListNews(data);
             setTotalPages(response.data.totalPages);
         } catch (error) {
-            alert(error.response.data.message);
+            if (error.response && error.response.data && error.response.data.message) {
+                message.error(error.response.data.message);
+            } else {
+                message.error('Lỗi không xác định');
+            }
+        } finally {
+            setLoading(false);
         }
     };
     useEffect(() => {
@@ -85,6 +95,7 @@ const NewsByCategory = () => {
                     <RightArrowIcon/>
                 </button>
             </div>
+            {loading && <Loading></Loading>}
         </div>
     )
 }

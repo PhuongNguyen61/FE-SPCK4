@@ -1,9 +1,9 @@
 div.CarFrameComponent2 {
-  min-width: 362px;
-  max-width: 400px;
-  width: 30%;
-  height: 511px;
-  border: 1px solid rgb(206, 199, 199);
+  /* min-width: 350px; */
+  /* max-width: 400px; */
+  margin-top: 30px;
+  width: 31.8%;
+  border: 1px solid #DDDDDD;
   padding: 10px;
   display: flex;
   flex-direction: column;
@@ -12,12 +12,20 @@ div.CarFrameComponent2 {
 
 div.CarFrameComponent2 div.carImg {
   width: 100%;
-  height: 239px;
+  aspect-ratio: 2/1;
 }
 
 div.CarFrameComponent2 div.carImg img {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
+  aspect-ratio: 2/1;
+  object-fit: cover;
+  cursor: pointer;
+  transition: all 0.5s ease;
+}
+
+div.CarFrameComponent2 div.carImg img:hover {
+  opacity: 0.75;
 }
 
 div.CarFrameComponent2 div.carInfo {
@@ -27,8 +35,8 @@ div.CarFrameComponent2 div.carInfo {
 }
 
 div.CarFrameComponent2 div.carInfo div.state {
-  color: rgb(74, 74, 252);
-  border: 2px solid rgb(74, 74, 252);
+  color: #3563E9;
+  border: 1px solid #3563E9;
   width: 50px;
   height: 25px;
   border-radius: 5px;
@@ -50,16 +58,16 @@ div.CarFrameComponent2 div.carInfo div.Price {
 }
 
 div.CarFrameComponent2 div.carInfo div.Price span {
-  color: red;
+  color: #DB2719;
   font-size: 18px;
 }
 
 div.CarFrameComponent2 div.carInfo div.BrandAndCountry {
-  color: rgb(228, 50, 50);
+  color: #DB2719;
 }
 
 div.CarFrameComponent2 div.carInfo div.BrandAndCountry span {
-  color: blue;
+  color: #3563E9;
 }
 
 div.CarFrameComponent2 div.carInfo div.parameter {
@@ -71,13 +79,20 @@ div.CarFrameComponent2 div.carInfo div.parameter {
 }
 
 div.CarFrameComponent2 div.carInfo div.parameter div.parameterFrame {
+  width: fit-content;
   display: flex;
-  flex-direction: row;
-  gap: 8px;
+  align-items: center;
+  gap: 20px;
 }
 
+/* div.CarFrameComponent2 div.carInfo div.parameter .gearBox,
+div.CarFrameComponent2 div.carInfo div.parameter .sitChairs {
+  position: relative;
+  left: 55px;
+} */
+
 div.CarFrameComponent2 div.carInfo div.line {
-  border: 1px solid rgb(206, 199, 199);
+  border: 1px solid #DDDDDD;
 }
 
 div.CarFrameComponent2 div.carInfo div.toDetailPage {
@@ -88,8 +103,17 @@ div.CarFrameComponent2 div.carInfo div.toDetailPage {
   gap: 8px;
   font-weight: 600;
   cursor: pointer;
+  transition: all 0.5s ease;
 }
 
 div.CarFrameComponent2 div.carInfo div.toDetailPage:hover {
-  color: red;
+  color: #DB2719;
+}
+
+div.CarFrameComponent2 div.carInfo div.toDetailPage svg path {
+  transition: all 0.5s ease;
+}
+
+div.CarFrameComponent2 div.carInfo div.toDetailPage:hover svg path {
+  fill: #DB2719;
 }

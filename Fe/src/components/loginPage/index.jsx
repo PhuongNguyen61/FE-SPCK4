@@ -1,9 +1,8 @@
 //library
 import { useState, useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
-
 // store
 import { Store } from "../../Store";
 // imgs
@@ -12,11 +11,16 @@ import Background from "/public/imgs/background.png";
 import ArrowRightIcon from "../../icons/loginAndRegister/ArrowRightIcon";
 //
 import Loading from "../Loading";
-
 import "./style.css";
 
 const LoginPage = () => {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 200);
+    return () => clearTimeout(timer);
+  }, []);
   const navigate = useNavigate();
   const store = useContext(Store);
   useEffect(() => {
@@ -24,6 +28,12 @@ const LoginPage = () => {
       navigate("/");
     }
   }, []);
+  // màn hình hiển thị ở đầu trang khi mở trang lên, thiết lập thanh cuộn trên đầu trang
+  const location = useLocation();
+  useEffect(() => {
+      window.scrollTo(0, 0);
+  }, [location]);
+  // submit
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -49,13 +59,17 @@ const LoginPage = () => {
       );
       const data = response.data;
       if (data) {
-        localStorage.setItem("currentUser", JSON.stringify(data.data));
+        // localStorage.setItem("currentUser", JSON.stringify(data.data));
+        store.setCurrentUser(data.data);
       }
-      message.success(response.data.message);
+      message.success((response.data.message), 2);
       navigate("/");
-      location.reload();
     } catch (error) {
-      message.error(error.response.data.message);
+      if (error.response && error.response.data && error.response.data.message) {
+        message.error(error.response.data.message);
+      } else {
+        message.error('Lỗi không xác định');
+      }
     } finally {
       setLoading(false);
     }

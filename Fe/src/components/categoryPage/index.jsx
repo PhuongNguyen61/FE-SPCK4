@@ -25,10 +25,12 @@ const CategoryPage = () => {
     { label: "Tất cả", min: 0, max: Infinity },
     { label: "0 - 500 triệu", min: 0, max: 500000000 },
     { label: "500 triệu - 1 tỉ", min: 500000000, max: 1000000000 },
-    { label: "1 tỉ - 2 tỉ", min: 1000000000, max: 2000000000 },
-    { label: "2 tỉ - 3 tỉ", min: 2000000000, max: 3000000000 },
-    { label: "3 tỉ - 4 tỉ", min: 3000000000, max: 4000000000 },
-    { label: "4 tỉ - 5 tỉ", min: 4000000000, max: 5000000000 },
+    { label: "1 tỉ - 3 tỉ", min: 1000000000, max: 3000000000 },
+    { label: "3 tỉ - 5 tỉ", min: 3000000000, max: 5000000000 },
+    { label: "5 tỉ - 7 tỉ", min: 5000000000, max: 7000000000 },
+    { label: "7 tỉ - 10 tỉ", min: 7000000000, max: 10000000000 },
+    { label: "10 tỉ - 15 tỉ", min: 10000000000, max: 15000000000 },
+    { label: "15 tỉ - 20 tỉ", min: 15000000000, max: 20000000000 },
   ]; //Bảng quy đổi
   const [filters, setFilters] = useState({
     brand: "",
@@ -127,16 +129,24 @@ const CategoryPage = () => {
     "Mazda",
     "Ford",
     "Subaru",
+    "Mercedes",
+    "Audi",
+    "BMW",
   ];
   const listColor = [
     "Tất cả",
-    "Đỏ",
     "Đen",
     "Trắng",
     "Ghi",
+    "Xám",
+    "Đỏ",
     "Xanh lá",
     "Xanh dương",
+    "Xanh Sodalite",
     "Nâu",
+    "Vàng",
+    "Tím",
+    "Cam"
   ];
   const listYear = [
     "Tất cả",
@@ -157,9 +167,11 @@ const CategoryPage = () => {
     "0 - 500 triệu",
     "500 triệu - 1 tỉ",
     "1 tỉ - 2 tỉ",
-    "2 tỉ - 3 tỉ ",
-    "3 tỉ - 4 tỉ ",
-    "4 tỉ - 5 tỉ ",
+    "3 tỉ - 5 tỉ ",
+    "5 tỉ - 7 tỉ ",
+    "7 tỉ - 10 tỉ ",
+    "10 tỉ - 15 tỉ ",
+    "15 tỉ - 20 tỉ ",
   ];
   return (
     <div className="allCarPage">
