@@ -76,6 +76,8 @@ const ListCars = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
     const [listCars, setListCars] = useState([]);
+    console.log(listCars);
+    
     const queryListCars = async () => {
         setLoading(true);
         try {
@@ -259,7 +261,7 @@ const ListCars = () => {
                                 </div>
                                 <div className='time'>
                                     <p>{getStatusName(car.isStatus)}</p>
-                                    <p>{moment(car.createdAt).format('HH:mm, DD/MM/YYYY')}</p>
+                                    <p>{moment(car.updatedAt).format('HH:mm, DD/MM/YYYY')}</p>
                                 </div>
                                 <div className='action'>
                                     {car.isStatus === 'approved' ?

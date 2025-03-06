@@ -303,7 +303,7 @@ const ListCommentsByNews = () => {
                                 </div>
                                 <div className='time'>
                                     <p>{getStatusName(comment.isStatus)}</p>
-                                    <p>{moment(comment.createdAt).format('HH:mm, DD/MM/YYYY')}</p>
+                                    <p>{moment(comment.updatedAt).format('HH:mm, DD/MM/YYYY')}</p>
                                 </div>
                                 <div className='action'>
                                     <button disabled={displayInput === `input${idx}`} onClick={() => setDisplay(`p${idx}`, `input${idx}`, comment.content)}>Chỉnh sửa</button>
