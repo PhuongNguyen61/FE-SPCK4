@@ -20,7 +20,7 @@
 }
 
 .contactPage .content .left {
-    width: 530px;
+    width: 47.5%;
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -50,7 +50,6 @@
 }
 
 .contactPage .content .left .gr textarea {
-    width: 530px;
     height: 100px;
     resize: none;
     font-size: 14px;
@@ -87,7 +86,7 @@
 }
 
 .contactPage .content .right {
-    width: 530px;
+    width: 47.5%;
     height: 100%;
     display: flex;
     align-items: center;

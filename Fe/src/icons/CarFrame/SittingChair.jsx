@@ -1,7 +1,7 @@
 const SittingChairIcon = () => {
   return (
     <svg
-      fill="blue"
+      fill="#3563E9"
       height="20px"
       width="20px"
       version="1.1"

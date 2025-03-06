@@ -41,21 +41,34 @@ const listYear = [
   "2025",
 ];
 
-const listColor = ["Đen", "Trắng", "Ghi", "Xám", "Đỏ", "Xanh lá", "Xanh dương", "Xanh Sodalite", "Nâu", "Vàng", "Tím", "Cam"];
+const listColor = [
+  "Đen",
+  "Trắng",
+  "Ghi",
+  "Xám",
+  "Đỏ",
+  "Xanh lá",
+  "Xanh dương",
+  "Xanh Sodalite",
+  "Nâu",
+  "Vàng",
+  "Tím",
+  "Cam",
+];
 
 const PostingCarInfoPage = () => {
   const store = useContext(Store);
   const nav = useNavigate();
   useEffect(() => {
     if (!store.currentUser) {
-      nav('/');
-    };
+      nav("/");
+    }
     if (store.currentUser) {
       const role = store.currentUser.role;
-      if (role !== 'PROVIDER') {
-          nav('/');
-      };
-    };
+      if (role !== "PROVIDER") {
+        nav("/");
+      }
+    }
   }, []);
   const [fileCount, setFileCount] = useState(0); //đếm số lượng ảnh
   const [carName, setCarName] = useState(null);
@@ -82,7 +95,7 @@ const PostingCarInfoPage = () => {
   let idUser;
   if (store.currentUser) {
     accessToken = store.currentUser.accessToken;
-    idUser = store.currentUser._id
+    idUser = store.currentUser._id;
   }
   // const crrUser = localStorage.getItem("currentUser");
   // const userObj = JSON.parse(crrUser); // Chuyển chuỗi JSON thành object
@@ -403,6 +416,10 @@ const PostingCarInfoPage = () => {
             value={describe}
             onChange={(e) => setDescribe(e.target.value)}
           ></textarea>
+        </div>
+        <div className="error">
+          *Tên và ảnh của xe sau khi đăng tải sẽ không thể sửa. Vui lòng kiểm
+          tra kĩ trước khi đăng
         </div>
         <div className="gr">
           <button type="submit">Gửi</button>
