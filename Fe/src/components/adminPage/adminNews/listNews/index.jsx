@@ -221,7 +221,7 @@ const ListNews = () => {
                                 <p className='category' onClick={() => navigate(`/admin/news/newsByCategory/all/${news.isCategory}`)}>{getCategoryName(news.isCategory)}</p>
                                 <div className='time'>
                                     <p>{getStatusName(news.isStatus)}</p>
-                                    <p>{moment(news.createdAt).format('HH:mm, DD/MM/YYYY')}</p>
+                                    <p>{moment(news.updatedAt).format('HH:mm, DD/MM/YYYY')}</p>
                                 </div>
                                 <div className='action'>
                                     {news.isStatus === 'published' ?
