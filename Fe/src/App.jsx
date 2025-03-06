@@ -70,6 +70,11 @@ function App() {
       const userObj = JSON.parse(crrUser);
       if (userObj && userObj._id) {
         socket.emit("join_room", userObj._id); // Chỉ tham gia phòng nếu userId hợp lệ
+        // if (userObj.role === "ADMIN") {
+        //   socket.emit("join_room", "admin_room"); // Admin vào phòng chung
+        // } else {
+        //   socket.emit("join_room", userObj._id); // Chỉ tham gia phòng nếu userId hợp lệ
+        // }
       }
     }
 

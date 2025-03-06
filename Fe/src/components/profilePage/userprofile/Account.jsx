@@ -1,5 +1,6 @@
 import { React, useEffect, useState, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { message } from "antd";
 import "../userprofile/Account.css";
 import axios from "axios";
 // import { Button } from "antd";
@@ -12,13 +13,14 @@ const Account = () => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     if (!store.currentUser) {
-      navigate('/');
-    };
+      navigate("/");
+    }
   }, []);
 
   //dữ liệu user
   const { userId } = useParams();
   const [userData, setUserData] = useState(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -33,8 +35,43 @@ const Account = () => {
     fetchUserData();
   }, [userId]);
 
+  const registerProvider = async () => {
+    if (
+      !userData.fullname ||
+      !userData.phoneNumber ||
+      !userData.dateOfBirth ||
+      !userData.address
+    ) {
+      message.error(
+        "Vui lòng cập nhật đầy đủ thông tin cá nhân trước khi đăng ký!"
+      );
+      navigate(`/profile/accountsetting/${userId}`);
+      return;
+    }
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `http://localhost:8080/api/v1/users/registerProvider/${userId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${store.currentUser.accessToken}`,
+          },
+        }
+      );
+      message.success(response.data.message);
+    } catch (error) {
+      console.error("Error fetching user data:", error.message);
+      message.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (!userData) {
     return <Loading></Loading>;
+  } else {
+    console.log(userData);
   }
 
   const formatDate = (d) => {
@@ -50,8 +87,8 @@ const Account = () => {
       return `${day}/${month}/${year}`;
     }
 
-    return null
-  }
+    return null;
+  };
 
   // if (!carData) {
   //   return <Loading></Loading>;
@@ -88,15 +125,21 @@ const Account = () => {
             Quản lý tin đăng bán và đơn hàng
           </button>
         </div> */}
-        {userData.role === 'PROVIDER' ? (
+        {userData.role === "PROVIDER" ? (
           <div className="provider pro">
-            <button className="btn-provider btn" onClick={() => navigate(`/provider/${store.currentUser._id}`)}>
+            <button
+              className="btn-provider btn"
+              onClick={() => navigate(`/provider/${store.currentUser._id}`)}
+            >
               Quản lý tin đăng bán và đơn hàng
             </button>
           </div>
         ) : (
           <div className="registerProvider pro">
-            <button className="btn-registerProvider btn" onClick={() => navigate(`/`)}>
+            <button
+              className="btn-registerProvider btn"
+              onClick={registerProvider}
+            >
               Đăng ký trở thành nhà cung cấp
             </button>
           </div>
