@@ -46,10 +46,12 @@ const listColor = [
   "Nâu",
   "Vàng",
   "Tím",
-  "Cam"
+  "Cam",
 ];
 
 const EditPostProviderModal = ({ openEditModal, car, setOnOpenEditModal }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
   const [carPrice, setCarPrice] = useState(car.carPrice || "");
   const [brand, setBrand] = useState(car.brand || listBrand[0]);
   const [color, setColor] = useState(car.color || listColor[0]);
@@ -103,7 +105,7 @@ const EditPostProviderModal = ({ openEditModal, car, setOnOpenEditModal }) => {
       console.log(accessToken);
 
       const response = await axios.put(
-        `http://localhost:8080/api/v1/cars/updatecar/${car._id}`,
+        `${API_BASE_URL}/api/v1/cars/updatecar/${car._id}`,
         updatedCar,
         {
           headers: {

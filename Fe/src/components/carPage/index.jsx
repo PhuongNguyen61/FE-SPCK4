@@ -17,6 +17,7 @@ import { Store } from "../../Store";
 //css
 import "./style.css";
 const CarDetailPage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const store = useContext(Store);
   const navigate = useNavigate();
   const [crrImg, setCrrImg] = useState(0); //hình ảnh to (ảnh hiện tại)
@@ -35,20 +36,20 @@ const CarDetailPage = () => {
   let userId;
   let role;
   if (store.currentUser) {
-    accessToken = store.currentUser.accessToken
-    userId = store.currentUser._id
-    role = store.currentUser.role
+    accessToken = store.currentUser.accessToken;
+    userId = store.currentUser._id;
+    role = store.currentUser.role;
   }
   // const crrUser = localStorage.getItem("currentUser");
   // const userObj = crrUser ? JSON.parse(crrUser) : null;
   // const accessToken = userObj?.accessToken || null;
   // const userId = userObj?._id || null;
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
   useEffect(() => {
-    if (status === 'pending' && role !== 'ADMIN') {
-      navigate('/')
+    if (status === "pending" && role !== "ADMIN") {
+      navigate("/");
     }
-  })
+  });
 
   //Hàm gửi thư
   const handleSendMail = async (e) => {
@@ -66,7 +67,7 @@ const CarDetailPage = () => {
         return;
       }
       const response = await axios.post(
-        `http://localhost:8080/api/v1/mail/PostMail?senderId=${userId}&recipientId=${carData.idProvider._id}&carId=${carData._id}`,
+        `${API_BASE_URL}/api/v1/mail/PostMail?senderId=${userId}&recipientId=${carData.idProvider._id}&carId=${carData._id}`,
         formData,
         {
           headers: {
@@ -98,13 +99,13 @@ const CarDetailPage = () => {
     const fetchCarData = async () => {
       try {
         const carResponse = await axios.get(
-          `http://localhost:8080/api/v1/cars/car/${idCar}`
+          `${API_BASE_URL}/api/v1/cars/car/${idCar}`
         );
         setCarData(carResponse.data.data);
         setStatus(carResponse.data.data.isStatus);
 
         const wishListResponse = await axios.get(
-          `http://localhost:8080/api/v1/cars/wishlist/${user._id}?limit=100&page=1`,
+          `${API_BASE_URL}/api/v1/cars/wishlist/${user._id}?limit=100&page=1`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -150,14 +151,11 @@ const CarDetailPage = () => {
 
       if (!btnLikeProduct) {
         await axios
-          .post(
-            `http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          )
+          .post(`${API_BASE_URL}/api/v1/cars/${idCar}/wishlist/${user._id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
           .then((response) => {
             console.log(response);
           });
@@ -165,14 +163,11 @@ const CarDetailPage = () => {
         setBtnLikeProduct(true);
       } else {
         await axios
-          .delete(
-            `http://localhost:8080/api/v1/cars/${idCar}/wishlist/${user._id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${accessToken}`,
-              },
-            }
-          )
+          .delete(`${API_BASE_URL}/api/v1/cars/${idCar}/wishlist/${user._id}`, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          })
           .then((response) => {
             console.log(response);
           });

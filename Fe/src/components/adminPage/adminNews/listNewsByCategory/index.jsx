@@ -17,6 +17,8 @@ const div = 'div'
 const activeDiv = 'activeDiv div'
 
 const ListNewsByCategory = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const store = useContext(Store);
@@ -38,7 +40,7 @@ const ListNewsByCategory = () => {
     const queryCountNews = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/news/countNewsByCategory/${splitPathname[5]}`,
+            const response = await axios.get(`${API_BASE_URL}/api/v1/news/countNewsByCategory/${splitPathname[5]}`,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -81,7 +83,7 @@ const ListNewsByCategory = () => {
     const queryListNews = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/news/newsByCategory?limit=${limit}&currentPage=${currentPage}&isStatus=${isStatus}&isCategory=${splitPathname[5]}`,
+            const response = await axios.get(`${API_BASE_URL}/api/v1/news/newsByCategory?limit=${limit}&currentPage=${currentPage}&isStatus=${isStatus}&isCategory=${splitPathname[5]}`,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -154,7 +156,7 @@ const ListNewsByCategory = () => {
     const handleDelete = async (id) => {
         setLoading(true);
         try {
-            const response = await axios.delete(`http://localhost:8080/api/v1/news/deleteNewsById/${id}`,
+            const response = await axios.delete(`${API_BASE_URL}/api/v1/news/deleteNewsById/${id}`,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,

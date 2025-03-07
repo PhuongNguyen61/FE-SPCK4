@@ -12,11 +12,13 @@ import MailNotSeen from "../../../icons/provider/mailNotSeen";
 import MailSeen from "../../../icons/provider/mailSeen";
 import IconLeft from "../../../icons/categoryPage/IconLeft";
 import IconRight from "../../../icons/categoryPage/IconRight";
-import like from "../../../../public/imgs/like1.jpeg"
+import like from "../../../../public/imgs/like1.jpeg";
 //css
 import "./style.css";
 
 const ContactMailManage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
   const store = useContext(Store);
   const [listMail, setListMail] = useState([]);
   const [selectedMail, setSelectedMail] = useState(null);
@@ -41,7 +43,7 @@ const ContactMailManage = () => {
     const fetchListMailData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/mail/ProviderMail?providerId=${idUser}&page=${currentPage}`,
+          `${API_BASE_URL}/api/v1/mail/ProviderMail?providerId=${idUser}&page=${currentPage}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -65,7 +67,7 @@ const ContactMailManage = () => {
     if (!mail.isRead) {
       try {
         await axios.put(
-          `http://localhost:8080/api/v1/mail/${mailId}/read`,
+          `${API_BASE_URL}/api/v1/mail/${mailId}/read`,
           {},
           {
             headers: {
@@ -97,7 +99,7 @@ const ContactMailManage = () => {
     }
     try {
       const response = await axios.put(
-        `http://localhost:8080/api/v1/mail/${selectedMail._id}/status`,
+        `${API_BASE_URL}/api/v1/mail/${selectedMail._id}/status`,
         { status: decision, reason },
         {
           headers: { Authorization: `Bearer ${accessToken}` },
@@ -133,11 +135,13 @@ const ContactMailManage = () => {
   };
 
   if (!listMail.length) {
-    return <div className="noneMail">
-      <p>Hiện tại bạn chưa có đơn nào của khách. </p>
-      <img src={like} alt="" />
-      <p>Nhưng sẽ sớm thôi bạn sẽ có những đơn hàng đầu tiên !</p>
-    </div>;
+    return (
+      <div className="noneMail">
+        <p>Hiện tại bạn chưa có đơn nào của khách. </p>
+        <img src={like} alt="" />
+        <p>Nhưng sẽ sớm thôi bạn sẽ có những đơn hàng đầu tiên !</p>
+      </div>
+    );
   }
 
   return (

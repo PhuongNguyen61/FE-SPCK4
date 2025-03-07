@@ -57,6 +57,8 @@ const listColor = [
 ];
 
 const PostingCarInfoPage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
   const store = useContext(Store);
   const nav = useNavigate();
   useEffect(() => {
@@ -160,7 +162,7 @@ const PostingCarInfoPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/cars/create-car",
+        `${API_BASE_URL}/api/v1/cars/create-car`,
         formData,
         {
           headers: {

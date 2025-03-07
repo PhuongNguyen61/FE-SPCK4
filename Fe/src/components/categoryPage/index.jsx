@@ -13,8 +13,10 @@ import axios from "axios";
 //css
 
 import "./style.css";
-
 const CategoryPage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
+
   const nav = useNavigate();
   const [allCarsData, setAllCarsData] = useState(null); // lấy data xe
   const [currentPage, setCurrentPage] = useState(1); //ptrang
@@ -50,7 +52,7 @@ const CategoryPage = () => {
     }).toString();
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/v1/cars?${queryParams}`
+        `${API_BASE_URL}/api/v1/cars?${queryParams}`
       );
       setAllCarsData(response.data.data);
       setTotalPages(response.data.totalPages);
@@ -98,7 +100,7 @@ const CategoryPage = () => {
   const handleSearch = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/v1/cars/search?carName=${searchQuery}&limit=${carsPerPage}&page=${currentPage}`
+        `${API_BASE_URL}/api/v1/cars/search?carName=${searchQuery}&limit=${carsPerPage}&page=${currentPage}`
       );
       setAllCarsData(response.data.data);
       setTotalPages(response.data.totalPages); // Nếu API trả kết quả đầy đủ trong 1 trang
@@ -146,7 +148,7 @@ const CategoryPage = () => {
     "Nâu",
     "Vàng",
     "Tím",
-    "Cam"
+    "Cam",
   ];
   const listYear = [
     "Tất cả",

@@ -14,6 +14,8 @@ import Loading from "../Loading";
 import "./style.css";
 
 const LoginPage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -31,7 +33,7 @@ const LoginPage = () => {
   // màn hình hiển thị ở đầu trang khi mở trang lên, thiết lập thanh cuộn trên đầu trang
   const location = useLocation();
   useEffect(() => {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
   }, [location]);
   // submit
   const [formData, setFormData] = useState({
@@ -49,7 +51,7 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/users/login",
+        `${API_BASE_URL}/api/v1/users/login`,
         formData,
         {
           headers: {
@@ -62,13 +64,17 @@ const LoginPage = () => {
         // localStorage.setItem("currentUser", JSON.stringify(data.data));
         store.setCurrentUser(data.data);
       }
-      message.success((response.data.message), 2);
+      message.success(response.data.message, 2);
       navigate("/");
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         message.error(error.response.data.message);
       } else {
-        message.error('Lỗi không xác định');
+        message.error("Lỗi không xác định");
       }
     } finally {
       setLoading(false);
