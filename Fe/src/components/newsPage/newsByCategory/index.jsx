@@ -6,8 +6,8 @@ import { message } from "antd";
 // icon
 import LeftArrowIcon from "../../../icons/newsPage/LeftArrowIcon";
 import RightArrowIcon from "../../../icons/newsPage/RightArrowIcon";
-import BookIcon from "../../../Icons/newsPage/BookIcon";
-import SearchIcon100px from "../../../Icons/newsPage/SearchIcon100px";
+import BookIcon from "../../../icons/newsPage/BookIcon";
+import SearchIcon100px from "../../../icons/newsPage/SearchIcon100px";
 //
 import Loading from "../../Loading";
 import "./style.css";
