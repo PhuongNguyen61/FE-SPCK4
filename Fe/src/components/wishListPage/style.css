@@ -115,7 +115,7 @@
 }
 /* *****************     test     **************************** */
 
-.pagination {
+.wishlistIn .pagination {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -124,21 +124,21 @@
   gap: 10px;
 }
 
-.pagination button {
+.wishlistIn .pagination button {
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: inherit;
   padding: 5px;
 }
-.noneWishlist{
+.wishlistIn .noneWishlist{
   text-align: center;
   margin: 50px 0px 120px 0px;
 }
-.noneWishlist img{
+.wishlistIn .noneWishlist img{
   width: 350px;
   height: 350px;
 }
-.noneWishlist p{
+.wishlistIn .noneWishlist p{
  font-size: 30px;
 }
