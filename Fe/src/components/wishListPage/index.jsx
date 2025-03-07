@@ -1,39 +1,37 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from 'axios';
+import './style.css';
 import slider from "../../../public/imgs/background.png"
-import CarFrame2 from '../carFrame/carFrameStyle2';
 
-import { Store } from '../../Store';
-
+import Loading from "../Loading"
 import IconLeft from '../../icons/categoryPage/IconLeft';
 import IconRight from '../../icons/categoryPage/IconRight';
-import Loading from "../Loading"
+import HeartIcon from "../../icons/carDetailPage/Heart";
+import LikedIcon from "../../icons/carDetailPage/Liked";
 import like from "../../../public/imgs/like.png"
 
-import './style.css';
-
 const WishListPage = () => {
-  const userId = useParams();
-  const navigate = useNavigate();
-  const store = useContext(Store);
+  const nav = useNavigate();
   const [wishlist, setWishlist] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const carsPerPage = 9;
+  const carsPerPage = 5;
+  //
   const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    if (!store.currentUser) {
-      navigate('/');
-    };
-    if (store.currentUser) {
-      const currentId = store.currentUser._id;
-      if (userId !== currentId) {
-        navigate(`/wishList/${currentId}`);
-      };
-    };
-  }, []);
+  const [btnLikeProduct, setBtnLikeProduct] = useState(false);
+  const crrUser = localStorage.getItem("currentUser");
+  const userObj = crrUser ? JSON.parse(crrUser) : null;
+  const accessToken = userObj?.accessToken || null;
 
+  const userId = userObj?._id || null;
+
+  if (!accessToken) {
+    console.error("AccessToken is missing!");
+    message.error("Người dùng chưa đăng nhập");
+    nav("/login");
+  }
   useEffect(() => {
     const fetchWishlist = async () => {
       setLoading(true);
@@ -42,26 +40,92 @@ const WishListPage = () => {
         if (!user) return;
 
         const accessToken = user.accessToken;
-        const response = await axios.get(`http://localhost:8080/api/v1/cars/wishlist/${user._id}?limit=${carsPerPage}&page=${currentPage}`, {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/cars/wishlist/${userId}?limit=${carsPerPage}&page=${currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
         setWishlist(response.data.data);
         setTotalPages(response.data.totalPages);
+
+        // Kiểm tra trạng thái like của từng xe
+        const likedCars = response.data.data.map((car) => car._id);
+        setBtnLikeProduct(likedCars.includes(carId)); // carId là id của xe hiện tại
       } catch (error) {
         console.error("Error fetching wishlist:", error.message);
-      } finally {
-        setLoading(false);
+      }finally {
+      setLoading(false);
       }
     };
     fetchWishlist();
   }, [currentPage]);
-  if (!wishlist) {
-    return <Loading></Loading>;
-  }
+  /////////////////////////////////////////////////////////
+
+  const handleLikeProduct = async (carId) => {
+    try {
+      const user = JSON.parse(localStorage.getItem("currentUser"));
+      const accessToken = user.accessToken;
+      if (!accessToken) {
+        alert("Please login to add to wishlist");
+        return;
+      }
+
+      const isLiked = wishlist.some((car) => car._id === carId);
+
+      if (!isLiked) {
+        // Thêm xe vào wishlist
+        await axios.post(
+          `http://localhost:8080/api/v1/cars/${carId}/wishlist/${userId}`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        // Cập nhật state wishlist
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/cars/wishlist/${userId}?limit=${carsPerPage}&page=${currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setWishlist(response.data.data);
+        setBtnLikeProduct(true);
+      } else {
+        // Xóa xe khỏi wishlist
+        await axios.delete(
+          `http://localhost:8080/api/v1/cars/${carId}/wishlist/${userId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        // Cập nhật state wishlist
+        const response = await axios.get(
+          `http://localhost:8080/api/v1/cars/wishlist/${userId}?limit=${carsPerPage}&page=${currentPage}`,
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+            },
+          }
+        );
+        setWishlist(response.data.data);
+        setBtnLikeProduct(false);
+      }
+    } catch (error) {
+      console.error("Error updating wishlist:", error.message);
+    }
+  };
 
 
+  ////////////////////////////////////////////////////////
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
@@ -70,7 +134,7 @@ const WishListPage = () => {
   };
 
   if (!wishlist) {
-    return <div>Loading</div>;
+    return <Loading></Loading>;
   }
   return (
     <div className='wishlist'>
@@ -80,6 +144,12 @@ const WishListPage = () => {
           <h1>My Wish List</h1>
         </div>
       </div>
+
+      
+
+{/* ////////////////////////////a///////////////////////////////////////////// */}
+      
+      
       {wishlist.length > 0 ? (
         <div className='wishlistIn'>
           <h3 className="title">
@@ -87,9 +157,48 @@ const WishListPage = () => {
           </h3>
           <div className="listCar">
             {wishlist && wishlist.length > 0 ? (
-              wishlist.map((car, index) => <CarFrame2 key={index} car={car} />)
+              wishlist.map((car, index) =>
+                <div className="CarFrame">
+                  <div className="carImg">
+                    <img src={car.carImg[0]} alt={car.carName} />
+                  </div>
+                  <div className="carInfo">
+                    <div className="state">{car.state}</div>
+                    <div className="nameCar" onClick={() => nav(`/car/${car._id}`)}>
+                      {car.carName}
+                    </div>
+                    <div className="Price">
+                      VNĐ: <span>{car.carPrice ? car.carPrice.toLocaleString() : 0}</span>
+                    </div>
+                    <div className="BrandAndCountry">
+                      {car.brand}, <span>{car.origin}</span>
+                    </div>
+                    <div className="line"></div>
+                    <div className="info">
+                      <div
+                        className="likeFrame item"
+                        onClick={() => handleLikeProduct(car._id)}
+                      >
+                        {wishlist.some((w) => w._id === car._id) ? (
+                          <LikedIcon />
+                        ) : (
+                          <HeartIcon />
+                        )}
+                      </div>
+                      <div className="toDetailPage" onClick={() => nav(`/car/${car._id}`)}>
+                        Chi tiết xe{" "}
+                        <IconRight style={{ width: "15", height: "15" }}></IconRight>{" "}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )
             ) : (
-              <>Không có xe nào</>
+                <div className='noneWishlist'>
+                  <p>Hiện tại bạn chưa có chiếc xe yêu thích nào.</p>
+                  <img src={like} alt="" />
+                  <p>Hãy thêm những chiếc yêu thích của bạn vào đây nào!</p>
+                </div>
             )}
           </div>
           <div className="pagination">
@@ -110,15 +219,14 @@ const WishListPage = () => {
             </button>
           </div>
         </div>
-      ):(
+      ) : (
         <div className='noneWishlist'>
           <p>Hiện tại bạn chưa có chiếc xe yêu thích nào.</p>
           <img src={like} alt="" />
           <p>Hãy thêm những chiếc yêu thích của bạn vào đây nào!</p>
         </div>
       )}
-      
-      {loading && <Loading></Loading>}
+    {loading && <Loading></Loading>}
     </div>
   )
 }

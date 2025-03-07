@@ -193,7 +193,11 @@ const Account = () => {
           {/* <p>Role: {userData.role} </p> */}
         </div>
 
-        {userData.role === "PROVIDER" ? (
+
+        {userData.role === 'PROVIDER' && (
+
+//         {userData.role === "PROVIDER" ? (
+
           <div className="provider pro">
             <button
               className="btn-provider btn"
@@ -202,7 +206,9 @@ const Account = () => {
               Quản lý tin đăng bán và đơn hàng
             </button>
           </div>
-        ) : (
+        )}
+
+        {userData.role === 'CUSTOMER' && (
           <div className="registerProvider pro">
             <button
               className="btn-registerProvider btn"
@@ -212,6 +218,8 @@ const Account = () => {
             </button>
           </div>
         )}
+
+        {userData.role === 'ADMIN' && null}
       </div>
       {loading && <Loading></Loading>}
     </div>

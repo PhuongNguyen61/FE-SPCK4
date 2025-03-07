@@ -71,16 +71,14 @@ function App() {
       const userObj = JSON.parse(crrUser);
       if (userObj && userObj._id) {
         socket.emit("join_room", userObj._id); // Chỉ tham gia phòng nếu userId hợp lệ
-        // if (userObj.role === "ADMIN") {
-        //   socket.emit("join_room", "admin_room"); // Admin vào phòng chung
-        // } else {
-        //   socket.emit("join_room", userObj._id); // Chỉ tham gia phòng nếu userId hợp lệ
-        // }
       }
     }
 
     socket.on("mailStatusChanged", (data) => {
       message.success(data.message); // Hiển thị thông báo người bán cho người hỏi mua
+    });
+    socket.on("sendMail", (data) => {
+      message.success(data.message); // Hiển thị thông báo khi người mua gửi đơn cho người bán
     });
     socket.on("register-provider", (data) => {
       message.success(data.message); // Hiển thị thông báo đăng kí làm provider cho admin
@@ -92,10 +90,18 @@ function App() {
       }
     };
 
-    window.addEventListener("storage", handleStorageChange);
+    window.addEventListener("storage", handleStorageChange); //Khi có tab nào của trình duyệt thay đổi dữ liệu trong localStorage, sự kiện này sẽ được kích hoạt.
+    /*
+    Khi dữ liệu trong localStorage thay đổi (ví dụ: user đăng xuất, localStorage.removeItem("currentUser")), handleStorageChange sẽ chạy.
+    Nếu không tìm thấy currentUser trong localStorage, nghĩa là người dùng đã đăng xuất.
+    Gửi một sự kiện leave_room lên socket để thông báo rằng user không còn online nữa.
+    */
+    //cleanup function. Xóa hết dữ liệu cũ.
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("storage", handleStorageChange); //hủy sự kiện
       socket.off("mailStatusChanged");
+      socket.off("sendMail");
+      socket.off("register-provider");
     };
   }, []);
 
