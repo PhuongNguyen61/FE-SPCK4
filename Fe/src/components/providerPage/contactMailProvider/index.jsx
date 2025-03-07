@@ -10,6 +10,8 @@ import { Store } from "../../../Store";
 import WarningIcon from "../../../icons/provider/warning";
 import MailNotSeen from "../../../icons/provider/mailNotSeen";
 import MailSeen from "../../../icons/provider/mailSeen";
+import IconLeft from "../../../icons/categoryPage/IconLeft";
+import IconRight from "../../../icons/categoryPage/IconRight";
 //css
 import "./style.css";
 
@@ -19,6 +21,8 @@ const ContactMailManage = () => {
   const [selectedMail, setSelectedMail] = useState(null);
   const [decision, setDecision] = useState(""); // "chấp thuận" hoặc "từ chối"
   const [reason, setReason] = useState(""); // Lý do từ chối
+  const [currentPage, setCurrentPage] = useState(1); //ptrang
+  const [totalPages, setTotalPages] = useState(1);
   //lấy id
   const { idUser } = useParams();
   console.log(idUser);
@@ -36,7 +40,7 @@ const ContactMailManage = () => {
     const fetchListMailData = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/api/v1/mail/ProviderMail?providerId=${idUser}`,
+          `http://localhost:8080/api/v1/mail/ProviderMail?providerId=${idUser}&page=${currentPage}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -44,6 +48,7 @@ const ContactMailManage = () => {
           }
         );
         setListMail(response.data.data);
+        setTotalPages(response.data.totalPages);
       } catch (error) {
         console.error(
           "Error fetching mail data:",
@@ -119,6 +124,12 @@ const ContactMailManage = () => {
       message.error("Lỗi khi gửi quyết định!");
     }
   };
+  //phân trang
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
   return (
     <div className="ContactMailManage">
       <div className="container1">
@@ -141,6 +152,23 @@ const ContactMailManage = () => {
         ) : (
           <>Chưa có thư</>
         )}
+        <div className="pagination">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+          >
+            <IconLeft></IconLeft>
+          </button>
+          <span>
+            Trang {currentPage}/{totalPages}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+          >
+            <IconRight style={{ width: "20", height: "20" }}></IconRight>
+          </button>
+        </div>
       </div>
 
       <div className="line"></div>
