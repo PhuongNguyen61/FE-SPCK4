@@ -167,11 +167,11 @@
   margin-top: 60px;
   text-align: center;
 }
-.noneMail p {
+.MailPage.noneMail p {
   padding: 0px 30px;
   font-size: 20px;
 }
-.noneMail img {
+.MailPage .noneMail img {
   width: 260px;
   height: 260px;
 }
