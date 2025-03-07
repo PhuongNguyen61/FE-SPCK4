@@ -1,5 +1,5 @@
 //
-import { React } from 'react';
+import { React, useContext } from 'react';
 import './style.css';
 import slider from "../../../public/imgs/background.png"
 import { useParams } from 'react-router-dom';
@@ -7,13 +7,14 @@ import UserSidebar from './userprofile/UserSidebar.jsx';
 import AccounSetting from './userprofile/AccountSetting.jsx';
 import Account from './userprofile/Account.jsx';
 import MailPage from './addToProfilePage/UserMail.jsx'
-import ProviderPage from '../../components/providerPage/index.jsx'
-import { Button } from 'antd';
+import { Store } from '../../Store.jsx'; 
 
 const ProfilePage = () => {
 
     const { activepage } = useParams()
 
+    const store = useContext(Store); // Lấy thông tin người dùng từ Store
+    const currentUser = store.currentUser; // Lấy thông tin người dùng hiện tại
     // alert(activepage)
     return (
 
@@ -32,8 +33,7 @@ const ProfilePage = () => {
                 <div className="right">
                     {activepage === 'account' && <Account />}
                     {activepage === 'accountsetting' && <AccounSetting />}
-                    {activepage === 'email' && <MailPage />}
-                    {/* {activepage === 'provider' && <ProviderPage />} */}
+                    {activepage === 'email' && currentUser?.role !== 'ADMIN' && <MailPage />}
                 </div>
             </div>
         </div>
