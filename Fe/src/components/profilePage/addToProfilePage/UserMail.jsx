@@ -56,6 +56,15 @@ const MailPage = () => {
   if (!mails) {
     return <Loading></Loading>;
   }
+  if (!mails.length) {
+    return <div className="noneMail">
+      <p>Hiện tại bạn chưa gửi đơn nào cả.</p>
+      <img src={imgMail} alt="" />
+      <p>
+        Hãy gửi đơn cho người bán để có thể sở hữu được chiếc xe mà bạn mong muốn.
+      </p>
+    </div>
+  }
 
   const checkReason = (mail) => {
     setSelectedMail(mail);
@@ -99,7 +108,6 @@ const MailPage = () => {
   };
   return (
     <div className="MailPage">
-      {mails.length > 0 ? (
         <div className="email">
           <h3>
             Bạn đã gửi <span>{mails.length}</span> đơn
@@ -233,16 +241,6 @@ const MailPage = () => {
             <></>
           )}
         </div>
-      ) : (
-        <div className="noneMail">
-          <p>Hiện tại bạn chưa gửi đơn nào cả.</p>
-          <img src={imgMail} alt="" />
-          <p>
-            Hãy gửi đơn cho người bán để có thể sở hữu được chiếc xe mà bạn mong
-            muốn.
-          </p>
-        </div>
-      )}
       <div className="pagination">
         <button
           onClick={() => handlePageChange(currentPage - 1)}
