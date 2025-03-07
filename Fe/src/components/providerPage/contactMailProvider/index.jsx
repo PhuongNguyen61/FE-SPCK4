@@ -12,6 +12,7 @@ import MailNotSeen from "../../../icons/provider/mailNotSeen";
 import MailSeen from "../../../icons/provider/mailSeen";
 import IconLeft from "../../../icons/categoryPage/IconLeft";
 import IconRight from "../../../icons/categoryPage/IconRight";
+import like from "../../../../public/imgs/like1.jpeg"
 //css
 import "./style.css";
 
@@ -130,6 +131,15 @@ const ContactMailManage = () => {
       setCurrentPage(newPage);
     }
   };
+
+  if (!listMail.length) {
+    return <div className="noneMail">
+      <p>Hiện tại bạn chưa có đơn nào của khách. </p>
+      <img src={like} alt="" />
+      <p>Nhưng sẽ sớm thôi bạn sẽ có những đơn hàng đầu tiên !</p>
+    </div>;
+  }
+
   return (
     <div className="ContactMailManage">
       <div className="container1">
@@ -152,6 +162,7 @@ const ContactMailManage = () => {
         ) : (
           <>Chưa có thư</>
         )}
+
         <div className="pagination">
           <button
             onClick={() => handlePageChange(currentPage - 1)}
