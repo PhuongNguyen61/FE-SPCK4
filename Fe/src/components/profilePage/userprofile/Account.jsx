@@ -17,6 +17,10 @@ const Account = () => {
       navigate("/");
     }
   }, []);
+  let accessToken;
+  if (store.currentUser) {
+    accessToken = store.currentUser.accessToken;
+  }
 
   //dữ liệu user
   const { userId } = useParams();
@@ -37,26 +41,26 @@ const Account = () => {
   }, [userId]);
 
   const registerProvider = async () => {
-    // if (
-    //   !userData.fullname ||
-    //   !userData.phoneNumber ||
-    //   !userData.dateOfBirth ||
-    //   !userData.address
-    // ) {
-    //   message.error(
-    //     "Vui lòng cập nhật đầy đủ thông tin cá nhân trước khi đăng ký!"
-    //   );
-    //   navigate(`/profile/accountsetting/${userId}`);
-    //   return;
-    // }
+    if (
+      !userData.fullname ||
+      !userData.phoneNumber ||
+      !userData.dateOfBirth ||
+      !userData.address
+    ) {
+      message.error(
+        "Vui lòng cập nhật đầy đủ thông tin cá nhân trước khi đăng ký!"
+      );
+      navigate(`/profile/accountsetting/${userId}`);
+      return;
+    }
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/v1/users/registerProvider/${userId}`,
+        `http://localhost:8080/api/v1/applications/registerProvider/${userId}`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${store.currentUser.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );

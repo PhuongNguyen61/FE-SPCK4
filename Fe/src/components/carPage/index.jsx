@@ -5,16 +5,19 @@ import ShareIcon from "../../icons/carDetailPage/shareIcon";
 import HeartIcon from "../../icons/carDetailPage/Heart";
 import LikedIcon from "../../icons/carDetailPage/Liked";
 //react
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 //loading
 import Loading from "../Loading";
+//
+import { Store } from "../../Store";
 //css
 import "./style.css";
 const CarDetailPage = () => {
+  const store = useContext(Store);
   const navigate = useNavigate();
   const [crrImg, setCrrImg] = useState(0); //hình ảnh to (ảnh hiện tại)
   const [btnLikeProduct, setBtnLikeProduct] = useState(false);
@@ -28,11 +31,24 @@ const CarDetailPage = () => {
   const [carData, setCarData] = useState(null);
   const [wishlist, setWishlist] = useState([]);
   //
-  const crrUser = localStorage.getItem("currentUser");
-  const userObj = crrUser ? JSON.parse(crrUser) : null;
-  const accessToken = userObj?.accessToken || null;
-
-  const userId = userObj?._id || null;
+  let accessToken;
+  let userId;
+  let role;
+  if (store.currentUser) {
+    accessToken = store.currentUser.accessToken
+    userId = store.currentUser._id
+    role = store.currentUser.role
+  }
+  // const crrUser = localStorage.getItem("currentUser");
+  // const userObj = crrUser ? JSON.parse(crrUser) : null;
+  // const accessToken = userObj?.accessToken || null;
+  // const userId = userObj?._id || null;
+  const [status, setStatus] = useState('');
+  useEffect(() => {
+    if (status === 'pending' && role !== 'ADMIN') {
+      navigate('/')
+    }
+  })
 
   //Hàm gửi thư
   const handleSendMail = async (e) => {
@@ -85,6 +101,7 @@ const CarDetailPage = () => {
           `http://localhost:8080/api/v1/cars/car/${idCar}`
         );
         setCarData(carResponse.data.data);
+        setStatus(carResponse.data.data.isStatus);
 
         const wishListResponse = await axios.get(
           `http://localhost:8080/api/v1/cars/wishlist/${user._id}?limit=100&page=1`,
