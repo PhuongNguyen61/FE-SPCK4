@@ -9,6 +9,7 @@ import { Store } from "../../../../Store";
 import LeftArrowIcon from "../../../../icons/adminPage/LeftArrowIcon";
 import RightArrowIcon from "../../../../icons/adminPage/RightArrowIcon";
 //
+import None from "../../none";
 import Loading from "../../../Loading";
 import "./style.css";
 
@@ -79,6 +80,8 @@ const ListUsers = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [listUsers, setListUsers] = useState([]);
+  console.log(listUsers.length);
+  
   const queryListUsers = async () => {
     setLoading(true);
     try {
@@ -222,6 +225,7 @@ const ListUsers = () => {
             <p className="theadTime">Thời gian đăng ký</p>
             <p className="theadAction">Hành động</p>
           </div>
+          {listUsers.length !== 0 ?
           <div className="tbody">
             {listUsers.map((user, idx) => {
               return (
@@ -260,8 +264,9 @@ const ListUsers = () => {
                 </div>
               );
             })}
-          </div>
+          </div> : <None content={'Chưa có người nào'}/>}
         </div>
+        {listUsers.length !== 0 ?
         <div className="pagination">
           <select name="" id="" onChange={(e) => setLimit(e.target.value)}>
             <option value="10">10</option>
@@ -283,7 +288,7 @@ const ListUsers = () => {
           >
             <RightArrowIcon />
           </button>
-        </div>
+        </div> : '' }
       </div>
       {loading && <Loading></Loading>}
     </div>
