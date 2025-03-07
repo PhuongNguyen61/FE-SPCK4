@@ -180,3 +180,14 @@
 .ContactMailManage .container2 .notSelectMail .warningText {
   opacity: 0.6;
 }
+.noneMail {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.noneMail p {
+  font-size: 35px;
+}
+.noneMail img {
+  width: 250px;
+  height: 250px;
+}
