@@ -69,3 +69,13 @@
   .rejectBtn:hover {
   color: rgb(74, 74, 230);
 }
+.nonePost{
+  text-align: center;
+}
+.nonePost p {
+  font-size: 30px;
+}
+.nonePost img{
+  width: 700px;
+  height: 300px;
+}

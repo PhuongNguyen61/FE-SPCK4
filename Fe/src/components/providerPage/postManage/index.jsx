@@ -6,6 +6,7 @@ import EditPostProviderModal from "./EditModal";
 //icons
 import EditIcon from "../../../icons/provider/EditIcon";
 import BinIcon from "../../../icons/provider/BinIcon";
+import carImg from "../../../../public/imgs/carImg.png";
 //library
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
@@ -78,9 +79,9 @@ const PostManage = () => {
     fetchApi();
   }, [idUser, providerCar]);
 
-  if (!providerCar.length) {
-    return <div>Chưa có xe nào</div>;
-  }
+  // if (!providerCar.length) {
+  //   return <div>Chưa có xe nào</div>;
+  // }
 
   return (
     <div className="PostProviderManage">
@@ -133,7 +134,11 @@ const PostManage = () => {
           );
         })
       ) : (
-        <></>
+        <div className="nonePost">
+          <p>Hiện tại bạn đang chưa đăng bán chiếc xe nào !</p>
+          <img src={carImg} alt="" />
+          <p>Hãy đăng bán để có thể nhanh chóng bán được chiếc xe mà bạn muốn bán nào !</p>
+        </div>
       )}
     </div>
   );
