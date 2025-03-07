@@ -9,6 +9,7 @@ import { Store } from '../../../../Store';
 import LeftArrowIcon from '../../../../icons/adminPage/LeftArrowIcon';
 import RightArrowIcon from '../../../../icons/adminPage/RightArrowIcon';
 //
+import None from "../../none";
 import Loading from "../../../Loading";
 import './style.css';
 
@@ -169,6 +170,7 @@ const ListRegisterProvider = () => {
                         <p className='theadTime'>Thời gian đăng ký</p>
                         <p className='theadAction'>Hành động</p>
                     </div>
+                    {totalApplys !== -0 ?
                     <div className='tbody'>
                         {listApplys.map((apply, idx) => {
                             return <div key={idx + 1} className='tr' style={apply.isStatus === "pending" ? {backgroundColor:'#2271B120'} : {backgroundColor:'#FFFFFF'}}>
@@ -209,8 +211,9 @@ const ListRegisterProvider = () => {
                                 </div>
                             </div>
                         })}
-                    </div>
+                    </div> : <None content={'Chưa có đơn đăng ký nào'}/>}
                 </div>
+                {totalApplys !== 0 ?
                 <div className="pagination">
                     <select name="" id="" onChange={(e) => setLimit(e.target.value)}>
                         <option value="10">10</option>
@@ -224,7 +227,7 @@ const ListRegisterProvider = () => {
                     <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                         <RightArrowIcon/>
                     </button>
-                </div>
+                </div> : ''}
             </div>
             {loading && <Loading></Loading>}
         </div>

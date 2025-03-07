@@ -9,6 +9,10 @@ import { Store } from '../../../../Store';
 import Loading from "../../../Loading";
 import './style.css';
 
+const listBrand = ['Audi', 'BMW', 'Ford', 'Honda', 'Mazda', 'Mercedes', 'Mitsubishi', 'Nissan', 'Subaru', 'Toyota', 'Vinfast', 'Volvo'];
+const listColor = ["Đen", "Trắng", "Ghi", "Xám", "Đỏ", "Xanh lá", "Xanh dương", "Xanh Sodalite", "Nâu", "Vàng", "Tím", "Cam",];
+const listYear = ["2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025",];
+
 const EditCarInfo = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -183,8 +187,12 @@ const EditCarInfo = () => {
                     </div>
                     <div className='grBrand'>
                         <label htmlFor="brand">Tên hãng</label>
-                        <input type="text" id='brand'
-                        value={brand} onChange={(e) => setBrand(e.target.value)}/>
+                        <select name="brand" id="brand" value={brand} onChange={(e) => setBrand(e.target.value)}>
+                            <option value="" disabled>---------- Chọn hãng ----------</option>
+                            {listBrand.map((brand, idx) => (
+                                <option key={idx} value={brand}>{brand}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className='grCarPrice'>
                         <label htmlFor="carPrice">Giá xe</label>
@@ -203,8 +211,12 @@ const EditCarInfo = () => {
                     </div>
                     <div className='grYear'>
                         <label htmlFor="year">Năm sản xuất</label>
-                        <input type="number" id='year'
-                        value={year} onChange={(e) => setYear(e.target.value)}/>
+                        <select name="year" id="year" value={year} onChange={(e) => setYear(e.target.value)}>
+                            <option value="" disabled>---------- Chọn năm sản xuất ----------</option>
+                            {listYear.map((year, idx) => (
+                                <option key={idx} value={year}>{year}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className='grState'>
                         <label htmlFor="state">Tình trạng</label>
@@ -221,8 +233,12 @@ const EditCarInfo = () => {
                     </div>
                     <div className='grColor'>
                         <label htmlFor="color">Màu sắc</label>
-                        <input type="text" id='color'
-                        value={color} onChange={(e) => setColor(e.target.value)}/>
+                        <select name="color" id="color" value={color} onChange={(e) => setColor(e.target.value)}>
+                            <option value="" disabled>---------- Chọn màu ----------</option>
+                            {listColor.map((color, idx) => (
+                                <option key={idx} value={color}>{color}</option>
+                            ))}
+                        </select>
                     </div>
                     <div className='grSitChairs'>
                         <label htmlFor="sitChairs">Số ghế</label>

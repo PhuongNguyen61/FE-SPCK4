@@ -9,6 +9,7 @@ import { Store } from '../../../../Store';
 import LeftArrowIcon from '../../../../icons/adminPage/LeftArrowIcon';
 import RightArrowIcon from '../../../../icons/adminPage/RightArrowIcon';
 //
+import None from "../../none";
 import Loading from "../../../Loading";
 import './style.css';
 
@@ -285,6 +286,7 @@ const ListCommentsByNews = () => {
                         <p className='theadTime'>Thời gian</p>
                         <p className='theadAction'>Hành động</p>
                     </div>
+                    {listComments.length !== 0 ?
                     <div className='tbody'>
                         {listComments.map((comment, idx) => {
                             return <div key={idx + 1} className='tr' style={comment.isStatus === "spam" ? {backgroundColor:'#2271B120'} : {backgroundColor:'#FFFFFF'}}>
@@ -315,8 +317,9 @@ const ListCommentsByNews = () => {
                                 </div>
                             </div>
                         })}
-                    </div>
+                    </div> : <None content={'Chưa có bình luận nào'}/>}
                 </div>
+                {listComments.length !== 0 ?
                 <div className="pagination">
                     <select name="" id="" onChange={(e) => setLimit(e.target.value)}>
                         <option value="10">10</option>
@@ -330,7 +333,7 @@ const ListCommentsByNews = () => {
                     <button onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
                         <RightArrowIcon/>
                     </button>
-                </div>
+                </div> : ''}
             </div>
             {loading && <Loading></Loading>}
         </div>
