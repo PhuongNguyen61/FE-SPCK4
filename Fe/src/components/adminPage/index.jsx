@@ -45,6 +45,7 @@ const AdminPage = () => {
                         pathname === "/admin/users/admin" ||
                         pathname === "/admin/users/provider" ||
                         pathname === "/admin/users/customer" ||
+                        pathname === "/admin/users/applys" ||
                         splitPathname[3] === "viewUserInfo" ||
                         splitPathname[3] === "editUserInfo"
                         ? activeComponent : component}
@@ -56,6 +57,7 @@ const AdminPage = () => {
                         pathname === "/admin/users/admin" ||
                         pathname === "/admin/users/provider" ||
                         pathname === "/admin/users/customer" ||
+                        pathname === "/admin/users/applys" ||
                         splitPathname[3] === "viewUserInfo" ||
                         splitPathname[3] === "editUserInfo"
                         ? activeDiv : div}>
@@ -68,6 +70,13 @@ const AdminPage = () => {
                             pathname === "/admin/users/customer"
                             ? activeSubComponent : subComponent}
                         >Tất cả thành viên
+                    </p>
+                    <p 
+                        onClick={() => navigate('users/applys')}
+                        className={
+                            pathname === "/admin/users/applys"
+                            ? activeSubComponent : subComponent}
+                        >Đơn đăng ký 
                     </p>
                     <p 
                         style={splitPathname[3] === "viewUserInfo" ? {display:'block', fontSize:'12px', color:'#FFFFFF', fontWeight:'bold', cursor:'pointer', transition:'all 0.5s ease',} : {display:'none'}}

@@ -16,8 +16,10 @@ const NewsDetailPage = () => {
     const navigate = useNavigate();
     const store = useContext(Store);
     let accessToken;
+    let role;
     if (store.currentUser) {
-        accessToken = store.currentUser.accessToken
+        accessToken = store.currentUser.accessToken;
+        role = store.currentUser.role;
     };
     // màn hình hiển thị ở đầu trang khi mở trang lên, thiết lập thanh cuộn trên đầu trang
     const location = useLocation();
@@ -29,11 +31,18 @@ const NewsDetailPage = () => {
     const [news, setNews] = useState({});
     const [listNews, setListNews] = useState([]);
     const [listComments, setListComments] = useState([]);
+    const [status, setStatus] = useState('');
+    useEffect(() => {
+        if (status === 'draft' && role !== 'ADMIN') {
+          navigate('/')
+        }
+    });
     const queryNews = async () => {
         setLoading(true);
         try {
             const queryNews = await axios.get(`http://localhost:8080/api/v1/news/${id}`);
             const data = queryNews.data.data;
+            setStatus(queryNews.data.data.isStatus);
             if (data) {
                 axios.all([
                     axios.get(`http://localhost:8080/api/v1/news/publishedByCategory?limit=6&isCategory=${data.isCategory}`),
