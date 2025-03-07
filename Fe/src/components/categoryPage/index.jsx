@@ -5,6 +5,7 @@ import IconRight from "../../icons/categoryPage/IconRight";
 //components
 import CarFrame2 from "../carFrame/carFrameStyle2";
 import Loading from "../Loading";
+
 //library
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -23,6 +24,7 @@ const CategoryPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState(""); //tìm xe bằng tên
   const [selectedPrice, setSelectedPrice] = useState("");
+  const [loading, setLoading] = useState(false);
   const priceRanges = [
     { label: "Tất cả", min: 0, max: Infinity },
     { label: "0 - 500 triệu", min: 0, max: 500000000 },
@@ -98,6 +100,7 @@ const CategoryPage = () => {
   };
 
   const handleSearch = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
         `${API_BASE_URL}/api/v1/cars/search?carName=${searchQuery}&limit=${carsPerPage}&page=${currentPage}`
@@ -108,6 +111,8 @@ const CategoryPage = () => {
       setSelectedPrice("");
     } catch (error) {
       console.error("Error searching cars:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -311,6 +316,7 @@ const CategoryPage = () => {
           </button>
         </div>
       </div>
+      {loading && <Loading></Loading>}
     </div>
   );
 };
