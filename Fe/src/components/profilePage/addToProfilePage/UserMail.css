@@ -32,7 +32,9 @@
   opacity: 0.4;
 }
 /*  */
-
+.MailPage .listMail .mailFrame .section1 {
+  width: 30%;
+}
 /* section2 */
 .MailPage .listMail .mailFrame .section2 {
   width: 40%;
@@ -57,6 +59,54 @@
 .MailPage .listMail .mailFrame .section2 .toReason:hover {
   border-bottom: 1px solid rgb(255, 109, 109);
   color: rgb(255, 109, 109);
+}
+
+.MailPage .listMail .mailFrame .section3 {
+  position: relative;
+}
+
+.MailPage .listMail .mailFrame .section3 p {
+  font-weight: 600;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+.MailPage .listMail .mailFrame .section3 p:hover {
+  color: red;
+}
+
+.MailPage .listMail .mailFrame .section3 .deleteFrame {
+  background-color: rgb(160, 111, 111);
+  color: white;
+  position: absolute;
+  width: 420%;
+  padding: 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  top: -120%;
+  right: -30%;
+  gap: 5px;
+  border-radius: 10px;
+}
+
+.MailPage .listMail .mailFrame .section3 .deleteFrame .title {
+  font-weight: 600;
+}
+
+.mailFrame .section3 .deleteFrame .actionFrame {
+  display: flex;
+  flex-direction: row;
+  gap: 10%;
+  transition: 0.5s;
+}
+
+.mailFrame .section3 .deleteFrame .actionFrame .accept:hover {
+  color: rgb(84, 84, 233);
+}
+
+.mailFrame .section3 .deleteFrame .actionFrame .reject:hover {
+  color: rgb(233, 84, 84);
 }
 
 /* reasonFrame */
@@ -115,7 +165,7 @@
 }
 .noneMail {
   margin-top: 60px;
- text-align: center;
+  text-align: center;
 }
 .noneMail p {
   padding: 0px 30px;
