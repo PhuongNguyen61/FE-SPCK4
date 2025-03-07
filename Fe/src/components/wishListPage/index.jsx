@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import axios from 'axios';
-import './style.css';
 import slider from "../../../public/imgs/background.png"
 
 import Loading from "../Loading"
@@ -11,6 +10,8 @@ import IconRight from '../../icons/categoryPage/IconRight';
 import HeartIcon from "../../icons/carDetailPage/Heart";
 import LikedIcon from "../../icons/carDetailPage/Liked";
 import like from "../../../public/imgs/like.png"
+
+import './style.css';
 
 const WishListPage = () => {
   const nav = useNavigate();

@@ -167,11 +167,28 @@
   margin-top: 60px;
   text-align: center;
 }
-.noneMail p {
+.MailPage.noneMail p {
   padding: 0px 30px;
   font-size: 20px;
 }
-.noneMail img {
+.MailPage .noneMail img {
   width: 260px;
   height: 260px;
+}
+
+.MailPage .pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 40px 0px;
+  gap: 10px;
+}
+
+.MailPage .pagination button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: inherit;
+  padding: 5px;
 }
