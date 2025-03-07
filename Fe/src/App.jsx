@@ -14,6 +14,7 @@ import AdminOverview from "./components/adminPage/adminOverview";
 // AdminUsers
 import AdminUsers from "./components/adminPage/adminUsers";
 import ListUsers from "./components/adminPage/adminUsers/listUser";
+import ListRegisterProvider from "./components/adminPage/adminUsers/listRegisterProvider";
 import ViewUserInfo from "./components/adminPage/adminUsers/ViewEdit/viewUserInfo";
 import EditUserInfo from "./components/adminPage/adminUsers/ViewEdit/editUserInfo";
 // AdminCars
@@ -79,7 +80,10 @@ function App() {
     }
 
     socket.on("mailStatusChanged", (data) => {
-      message.success(data.message); // Hiển thị thông báo
+      message.success(data.message); // Hiển thị thông báo người bán cho người hỏi mua
+    });
+    socket.on("register-provider", (data) => {
+      message.success(data.message); // Hiển thị thông báo đăng kí làm provider cho admin
     });
     const handleStorageChange = () => {
       const updatedUser = localStorage.getItem("currentUser");
@@ -107,6 +111,7 @@ function App() {
             <Route path="" element={<AdminOverview />} />
             <Route path="users" element={<AdminUsers />}>
               <Route path=":role" element={<ListUsers />} />
+              <Route path="applys" element={<ListRegisterProvider />} />
               <Route path="viewUserInfo/:id" element={<ViewUserInfo />} />
               <Route path="editUserInfo/:id" element={<EditUserInfo />} />
             </Route>

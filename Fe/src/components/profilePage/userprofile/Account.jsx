@@ -17,6 +17,10 @@ const Account = () => {
       navigate("/");
     }
   }, []);
+  let accessToken;
+  if (store.currentUser) {
+    accessToken = store.currentUser.accessToken;
+  }
 
   //dữ liệu user
   const { userId } = useParams();
@@ -52,11 +56,11 @@ const Account = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/v1/users/registerProvider/${userId}`,
+        `http://localhost:8080/api/v1/applications/registerProvider/${userId}`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${store.currentUser.accessToken}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         }
       );
@@ -101,46 +105,95 @@ const Account = () => {
           <img src={userData.avatar} alt="" />
         </div>
         <div className="otherInfo">
-          <div className='grUsername'>
-              <h4 htmlFor="username">Username</h4>
-              <input type="text" id='username' value={userData.username} disabled/>
+          <div className="grUsername">
+            <h4 htmlFor="username">Username</h4>
+            <input
+              type="text"
+              id="username"
+              value={userData.username}
+              disabled
+            />
           </div>
-          <div className='grEmail'>
-              <h4 htmlFor="email">Email</h4>
-              <input type="text" id='email' value={userData.email} disabled/>
+          <div className="grEmail">
+            <h4 htmlFor="email">Email</h4>
+            <input type="text" id="email" value={userData.email} disabled />
           </div>
-          <div className='grFullname'>
-              <h4 htmlFor="fullname">Họ tên</h4>
-              {userData.fullname ?
-              <input type="text" id='fullname' value={userData.fullname} disabled/> :
-              <input type="text" id='fullname' value={'Chưa có thông tin'} disabled/>
-              }
+          <div className="grFullname">
+            <h4 htmlFor="fullname">Họ tên</h4>
+            {userData.fullname ? (
+              <input
+                type="text"
+                id="fullname"
+                value={userData.fullname}
+                disabled
+              />
+            ) : (
+              <input
+                type="text"
+                id="fullname"
+                value={"Chưa có thông tin"}
+                disabled
+              />
+            )}
           </div>
-          <div className='grPhoneNumber'>
-              <h4 htmlFor="phoneNumber">Số điện thoại</h4>
-              {userData.phoneNumber ?
-              <input type="text" id='phoneNumber' value={userData.phoneNumber} disabled/> :
-              <input type="text" id='phoneNumber' value={'Chưa có thông tin'} disabled/>
-              }
+          <div className="grPhoneNumber">
+            <h4 htmlFor="phoneNumber">Số điện thoại</h4>
+            {userData.phoneNumber ? (
+              <input
+                type="text"
+                id="phoneNumber"
+                value={userData.phoneNumber}
+                disabled
+              />
+            ) : (
+              <input
+                type="text"
+                id="phoneNumber"
+                value={"Chưa có thông tin"}
+                disabled
+              />
+            )}
           </div>
-          <div className='grAddress'>
-              <h4 htmlFor="address">Địa chỉ</h4>
-              {userData.address ?
-              <input type="text" id='address' value={userData.address} disabled/> :
-              <input type="text" id='address' value={'Chưa có thông tin'} disabled/>
-              }
+          <div className="grAddress">
+            <h4 htmlFor="address">Địa chỉ</h4>
+            {userData.address ? (
+              <input
+                type="text"
+                id="address"
+                value={userData.address}
+                disabled
+              />
+            ) : (
+              <input
+                type="text"
+                id="address"
+                value={"Chưa có thông tin"}
+                disabled
+              />
+            )}
           </div>
-          <div className='grDateOfBirth'>
-              <h4 htmlFor="dateOfBirth">Ngày sinh</h4>
-              {userData.dateOfBirth ?
-              <input type="date" id='dateOfBirth' value={moment(userData.dateOfBirth).format('YYYY-MM-DD')} disabled/> :
-              <input type="text" id='dateOfBirth' value={'Chưa có thông tin'} disabled/>
-              }
+          <div className="grDateOfBirth">
+            <h4 htmlFor="dateOfBirth">Ngày sinh</h4>
+            {userData.dateOfBirth ? (
+              <input
+                type="date"
+                id="dateOfBirth"
+                value={moment(userData.dateOfBirth).format("YYYY-MM-DD")}
+                disabled
+              />
+            ) : (
+              <input
+                type="text"
+                id="dateOfBirth"
+                value={"Chưa có thông tin"}
+                disabled
+              />
+            )}
           </div>
           {/* <p>Role: {userData.role} </p> */}
         </div>
 
-        {userData.role === 'PROVIDER' ? (
+        {userData.role === "PROVIDER" ? (
           <div className="provider pro">
             <button
               className="btn-provider btn"
