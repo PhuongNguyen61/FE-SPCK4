@@ -79,7 +79,10 @@ function App() {
     }
 
     socket.on("mailStatusChanged", (data) => {
-      message.success(data.message); // Hiển thị thông báo
+      message.success(data.message); // Hiển thị thông báo người bán cho người hỏi mua
+    });
+    socket.on("register-provider", (data) => {
+      message.success(data.message); // Hiển thị thông báo đăng kí làm provider cho admin
     });
     const handleStorageChange = () => {
       const updatedUser = localStorage.getItem("currentUser");

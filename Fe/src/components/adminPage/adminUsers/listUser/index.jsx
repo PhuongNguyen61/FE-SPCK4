@@ -212,6 +212,16 @@ const ListUsers = () => {
           <p>Khách hàng</p>
           <p>({customer ? customer : 0})</p>
         </div>
+
+
+
+        <div
+          className={pathname === "/admin/users/customer" ? activeDiv : div}
+          // onClick={() => navigate("/admin/users/customer")}
+        >
+          <p>Đơn đăng ký</p>
+          <p>({customer ? customer : 0})</p>
+        </div>
       </div>
       <div className="displayTable">
         <div className="table">

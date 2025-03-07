@@ -39,6 +39,7 @@
 .homePage .section1 .content .redirectToCategory h3 {
   z-index: 1;
   color: #ffffff;
+  text-wrap: nowrap;
 }
 
 .homePage .section1 .content .redirectToCategory svg {
