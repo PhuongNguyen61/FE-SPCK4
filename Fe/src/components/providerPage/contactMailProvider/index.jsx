@@ -205,6 +205,12 @@ const ContactMailManage = () => {
               <label>Xe:</label>
               <div className="senderMail">{selectedMail.carId.carName}</div>
             </div>
+            <div className="row">
+              <label>Hết hạn vào:</label>
+              <div className="senderMail">
+                {moment(selectedMail.expiresAt).format(`DD/MM/YYYY`)}
+              </div>
+            </div>
             <div className="frameContent">
               <div className="nameContent">Nội dung thư</div>
               <div className="content">{selectedMail.mailContent}</div>

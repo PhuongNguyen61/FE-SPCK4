@@ -120,18 +120,22 @@ const PostingCarInfoPage = () => {
     // Kiểm tra gửi thông báo này
     if (!carName) {
       message.error("Vui lòng nhập tên xe!");
+      setLoading(false);
       return;
     }
     if (!carPrice || isNaN(carPrice) || carPrice <= 1000) {
       message.error("Vui lòng nhập giá xe hợp lệ!");
+      setLoading(false);
       return;
     }
     if (images.length === 0) {
       message.error("Vui lòng chọn ít nhất một hình ảnh!");
+      setLoading(false);
       return;
     }
     if (images.length > 5) {
       message.error("Chỉ được tải lên tối đa 5 hình ảnh!");
+      setLoading(false);
       return;
     }
 
