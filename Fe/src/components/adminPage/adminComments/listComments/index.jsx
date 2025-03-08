@@ -83,7 +83,7 @@ const ListComments = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [listComments, setListComments] = useState([]);
+  const [listComments, setListComments] = useState(null);
   const queryListComments = async () => {
     setLoading(true);
     try {
@@ -292,6 +292,9 @@ const ListComments = () => {
       setLoading(false);
     }
   };
+  if (!listComments) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="listComments">
       <h3>Bình luận</h3>

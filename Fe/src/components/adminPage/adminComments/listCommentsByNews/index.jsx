@@ -85,7 +85,7 @@ const ListCommentsByNews = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [listComments, setListComments] = useState([]);
+  const [listComments, setListComments] = useState(null);
   const [newsTitle, setNewsTitle] = useState("");
   const queryListComments = async () => {
     setLoading(true);
@@ -291,6 +291,9 @@ const ListCommentsByNews = () => {
       setLoading(false);
     }
   };
+  if (!listComments) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="listCommentsByNews">
       <div className="head">

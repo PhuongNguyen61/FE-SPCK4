@@ -79,7 +79,7 @@ const ListRegisterProvider = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [listApplys, setListApplys] = useState([]);
+  const [listApplys, setListApplys] = useState(null);
   console.log(listApplys);
 
   const queryListApplys = async () => {
@@ -178,6 +178,9 @@ const ListRegisterProvider = () => {
       setLoading(false);
     }
   };
+  if (!listApplys) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="listApplys">
       <h3>Đơn đăng ký</h3>

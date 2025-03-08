@@ -84,7 +84,7 @@ const ListCars = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [listCars, setListCars] = useState([]);
+  const [listCars, setListCars] = useState(null);
   console.log(listCars);
 
   const queryListCars = async () => {
@@ -248,6 +248,9 @@ const ListCars = () => {
         return "Không xác định";
     }
   };
+  if (!listCars) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="listCars">
       <h3>Xe</h3>

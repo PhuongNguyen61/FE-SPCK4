@@ -9,7 +9,6 @@
   position: absolute;
   color: white;
   margin-top: 8%;
-  
 }
 .bannerheading h1 {
   font-size: 80px;
@@ -20,7 +19,7 @@
 }
 
 .wishlistIn .listCar {
-  display: grid; 
+  display: grid;
   justify-content: center;
   /* justify-content: space-around;
   /* grid-template-columns: repeat(3, 1fr);
@@ -33,7 +32,7 @@
 
 /* *****************     test     **************************** */
 
-.wishlistIn .listCar .CarFrame{
+.wishlistIn .listCar .CarFrame {
   display: flex;
   justify-content: space-between;
   border: 3px solid rgb(206, 199, 199);
@@ -41,21 +40,21 @@
   width: 1000px;
   height: 200px;
 }
-.wishlistIn .listCar img{
+.wishlistIn .listCar img {
   width: 300px;
   height: 100%;
   border-radius: 17px 0 0 17px;
 }
-.wishlistIn .listCar .CarFrame .carInfo{
+.wishlistIn .listCar .CarFrame .carInfo {
   width: 650px;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   gap: 5px;
-  
+
   padding-top: 8px;
   padding-right: 11px;
 }
-.wishlistIn .listCar .CarFrame .carInfo .state{
+.wishlistIn .listCar .CarFrame .carInfo .state {
   color: rgb(74, 74, 252);
   border: 2px solid rgb(74, 74, 252);
   width: 50px;
@@ -131,14 +130,15 @@
   background-color: inherit;
   padding: 5px;
 }
-.wishlistIn .noneWishlist{
+.wishlist .noneWishlist {
   text-align: center;
   margin: 50px 0px 120px 0px;
 }
-.wishlistIn .noneWishlist img{
+.wishlist .noneWishlist img {
   width: 350px;
   height: 350px;
 }
-.wishlistIn .noneWishlist p{
- font-size: 30px;
+.wishlist .noneWishlist p {
+  font-size: 30px;
 }
+/*  */

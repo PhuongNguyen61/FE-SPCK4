@@ -84,7 +84,7 @@ const ListNews = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [listNews, setListNews] = useState([]);
+  const [listNews, setListNews] = useState(null);
   const queryListNews = async () => {
     setLoading(true);
     try {
@@ -204,6 +204,9 @@ const ListNews = () => {
       setLoading(false);
     }
   };
+  if (!listNews) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="listNews">
       <h3>Bài viết</h3>

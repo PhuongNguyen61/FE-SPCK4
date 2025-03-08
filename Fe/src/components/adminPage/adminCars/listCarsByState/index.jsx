@@ -85,7 +85,7 @@ const ListCarsByState = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [listCars, setListCars] = useState([]);
+  const [listCars, setListCars] = useState(null);
   const queryListCars = async () => {
     setLoading(true);
     try {
@@ -247,6 +247,9 @@ const ListCarsByState = () => {
         return "Không xác định";
     }
   };
+  if (!listCars) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="listCarsByState">
       <div className="head">

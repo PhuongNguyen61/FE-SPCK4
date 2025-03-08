@@ -86,8 +86,8 @@ const ListUsers = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [listUsers, setListUsers] = useState([]);
-  console.log(listUsers.length);
+  const [listUsers, setListUsers] = useState(null);
+  // console.log(listUsers.length);
 
   const queryListUsers = async () => {
     setLoading(true);
@@ -197,6 +197,9 @@ const ListUsers = () => {
       setLoading(false);
     }
   };
+  if (!listUsers) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="listUsers">
       <h3>Thành viên</h3>
