@@ -5,6 +5,7 @@ import IconRight from "../../icons/categoryPage/IconRight";
 //components
 import CarFrame2 from "../carFrame/carFrameStyle2";
 import Loading from "../Loading";
+
 //library
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -13,14 +14,17 @@ import axios from "axios";
 //css
 
 import "./style.css";
-
 const CategoryPage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
+
   const nav = useNavigate();
   const [allCarsData, setAllCarsData] = useState(null); // lấy data xe
   const [currentPage, setCurrentPage] = useState(1); //ptrang
   const [totalPages, setTotalPages] = useState(1);
   const [searchQuery, setSearchQuery] = useState(""); //tìm xe bằng tên
   const [selectedPrice, setSelectedPrice] = useState("");
+  const [loading, setLoading] = useState(false);
   const priceRanges = [
     { label: "Tất cả", min: 0, max: Infinity },
     { label: "0 - 500 triệu", min: 0, max: 500000000 },
@@ -50,7 +54,7 @@ const CategoryPage = () => {
     }).toString();
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/v1/cars?${queryParams}`
+        `${API_BASE_URL}/api/v1/cars?${queryParams}`
       );
       setAllCarsData(response.data.data);
       setTotalPages(response.data.totalPages);
@@ -96,9 +100,10 @@ const CategoryPage = () => {
   };
 
   const handleSearch = async () => {
+    setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/v1/cars/search?carName=${searchQuery}&limit=${carsPerPage}&page=${currentPage}`
+        `${API_BASE_URL}/api/v1/cars/search?carName=${searchQuery}&limit=${carsPerPage}&page=${currentPage}`
       );
       setAllCarsData(response.data.data);
       setTotalPages(response.data.totalPages); // Nếu API trả kết quả đầy đủ trong 1 trang
@@ -106,6 +111,8 @@ const CategoryPage = () => {
       setSelectedPrice("");
     } catch (error) {
       console.error("Error searching cars:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -146,7 +153,7 @@ const CategoryPage = () => {
     "Nâu",
     "Vàng",
     "Tím",
-    "Cam"
+    "Cam",
   ];
   const listYear = [
     "Tất cả",
@@ -309,6 +316,7 @@ const CategoryPage = () => {
           </button>
         </div>
       </div>
+      {loading && <Loading></Loading>}
     </div>
   );
 };

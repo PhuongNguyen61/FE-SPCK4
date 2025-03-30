@@ -1,19 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
-import axios from 'axios';
-import slider from "../../../public/imgs/background.png"
+import axios from "axios";
+import slider from "../../../public/imgs/background.png";
 
-import Loading from "../Loading"
-import IconLeft from '../../icons/categoryPage/IconLeft';
-import IconRight from '../../icons/categoryPage/IconRight';
+import Loading from "../Loading";
+import IconLeft from "../../icons/categoryPage/IconLeft";
+import IconRight from "../../icons/categoryPage/IconRight";
 import HeartIcon from "../../icons/carDetailPage/Heart";
 import LikedIcon from "../../icons/carDetailPage/Liked";
-import like from "../../../public/imgs/like.png"
+import like from "../../../public/imgs/like.png";
 
-import './style.css';
+import "./style.css";
 
 const WishListPage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const nav = useNavigate();
   const [wishlist, setWishlist] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -42,7 +43,7 @@ const WishListPage = () => {
 
         const accessToken = user.accessToken;
         const response = await axios.get(
-          `http://localhost:8080/api/v1/cars/wishlist/${userId}?limit=${carsPerPage}&page=${currentPage}`,
+          `${API_BASE_URL}/api/v1/cars/wishlist/${userId}?limit=${carsPerPage}&page=${currentPage}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -57,8 +58,8 @@ const WishListPage = () => {
         setBtnLikeProduct(likedCars.includes(carId)); // carId là id của xe hiện tại
       } catch (error) {
         console.error("Error fetching wishlist:", error.message);
-      }finally {
-      setLoading(false);
+      } finally {
+        setLoading(false);
       }
     };
     fetchWishlist();
@@ -79,7 +80,7 @@ const WishListPage = () => {
       if (!isLiked) {
         // Thêm xe vào wishlist
         await axios.post(
-          `http://localhost:8080/api/v1/cars/${carId}/wishlist/${userId}`,
+          `${API_BASE_URL}/api/v1/cars/${carId}/wishlist/${userId}`,
           {},
           {
             headers: {
@@ -89,7 +90,7 @@ const WishListPage = () => {
         );
         // Cập nhật state wishlist
         const response = await axios.get(
-          `http://localhost:8080/api/v1/cars/wishlist/${userId}?limit=${carsPerPage}&page=${currentPage}`,
+          `${API_BASE_URL}/api/v1/cars/wishlist/${userId}?limit=${carsPerPage}&page=${currentPage}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -101,7 +102,7 @@ const WishListPage = () => {
       } else {
         // Xóa xe khỏi wishlist
         await axios.delete(
-          `http://localhost:8080/api/v1/cars/${carId}/wishlist/${userId}`,
+          `${API_BASE_URL}/api/v1/cars/${carId}/wishlist/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -110,7 +111,7 @@ const WishListPage = () => {
         );
         // Cập nhật state wishlist
         const response = await axios.get(
-          `http://localhost:8080/api/v1/cars/wishlist/${userId}?limit=${carsPerPage}&page=${currentPage}`,
+          `${API_BASE_URL}/api/v1/cars/wishlist/${userId}?limit=${carsPerPage}&page=${currentPage}`,
           {
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -125,12 +126,10 @@ const WishListPage = () => {
     }
   };
 
-
   ////////////////////////////////////////////////////////
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= totalPages) {
       setCurrentPage(newPage);
-
     }
   };
 
@@ -138,38 +137,41 @@ const WishListPage = () => {
     return <Loading></Loading>;
   }
   return (
-    <div className='wishlist'>
-      <div className='heading'>
-        <img className='bannerimg' src={slider} alt="" />
-        <div className='bannerheading'>
+    <div className="wishlist">
+      <div className="heading">
+        <img className="bannerimg" src={slider} alt="" />
+        <div className="bannerheading">
           <h1>My Wish List</h1>
         </div>
       </div>
 
-      
+      {/* ////////////////////////////a///////////////////////////////////////////// */}
 
-{/* ////////////////////////////a///////////////////////////////////////////// */}
-      
-      
       {wishlist.length > 0 ? (
-        <div className='wishlistIn'>
+        <div className="wishlistIn">
           <h3 className="title">
             Bạn có <span>{wishlist.length}</span> xe yêu thích
           </h3>
           <div className="listCar">
             {wishlist && wishlist.length > 0 ? (
-              wishlist.map((car, index) =>
+              wishlist.map((car, index) => (
                 <div className="CarFrame">
                   <div className="carImg">
                     <img src={car.carImg[0]} alt={car.carName} />
                   </div>
                   <div className="carInfo">
                     <div className="state">{car.state}</div>
-                    <div className="nameCar" onClick={() => nav(`/car/${car._id}`)}>
+                    <div
+                      className="nameCar"
+                      onClick={() => nav(`/car/${car._id}`)}
+                    >
                       {car.carName}
                     </div>
                     <div className="Price">
-                      VNĐ: <span>{car.carPrice ? car.carPrice.toLocaleString() : 0}</span>
+                      VNĐ:{" "}
+                      <span>
+                        {car.carPrice ? car.carPrice.toLocaleString() : 0}
+                      </span>
                     </div>
                     <div className="BrandAndCountry">
                       {car.brand}, <span>{car.origin}</span>
@@ -186,20 +188,25 @@ const WishListPage = () => {
                           <HeartIcon />
                         )}
                       </div>
-                      <div className="toDetailPage" onClick={() => nav(`/car/${car._id}`)}>
+                      <div
+                        className="toDetailPage"
+                        onClick={() => nav(`/car/${car._id}`)}
+                      >
                         Chi tiết xe{" "}
-                        <IconRight style={{ width: "15", height: "15" }}></IconRight>{" "}
+                        <IconRight
+                          style={{ width: "15", height: "15" }}
+                        ></IconRight>{" "}
                       </div>
                     </div>
                   </div>
                 </div>
-              )
+              ))
             ) : (
-                <div className='noneWishlist'>
-                  <p>Hiện tại bạn chưa có chiếc xe yêu thích nào.</p>
-                  <img src={like} alt="" />
-                  <p>Hãy thêm những chiếc yêu thích của bạn vào đây nào!</p>
-                </div>
+              <div className="noneWishlist">
+                <p>Hiện tại bạn chưa có chiếc xe yêu thích nào.</p>
+                <img src={like} alt="" />
+                <p>Hãy thêm những chiếc yêu thích của bạn vào đây nào!</p>
+              </div>
             )}
           </div>
           <div className="pagination">
@@ -221,15 +228,15 @@ const WishListPage = () => {
           </div>
         </div>
       ) : (
-        <div className='noneWishlist'>
+        <div className="noneWishlist">
           <p>Hiện tại bạn chưa có chiếc xe yêu thích nào.</p>
           <img src={like} alt="" />
           <p>Hãy thêm những chiếc yêu thích của bạn vào đây nào!</p>
         </div>
       )}
-    {loading && <Loading></Loading>}
+      {loading && <Loading></Loading>}
     </div>
-  )
-}
+  );
+};
 
-export default WishListPage
+export default WishListPage;

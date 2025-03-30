@@ -57,6 +57,8 @@ const listColor = [
 ];
 
 const PostingCarInfoPage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
   const store = useContext(Store);
   const nav = useNavigate();
   useEffect(() => {
@@ -118,18 +120,22 @@ const PostingCarInfoPage = () => {
     // Kiểm tra gửi thông báo này
     if (!carName) {
       message.error("Vui lòng nhập tên xe!");
+      setLoading(false);
       return;
     }
     if (!carPrice || isNaN(carPrice) || carPrice <= 1000) {
       message.error("Vui lòng nhập giá xe hợp lệ!");
+      setLoading(false);
       return;
     }
     if (images.length === 0) {
       message.error("Vui lòng chọn ít nhất một hình ảnh!");
+      setLoading(false);
       return;
     }
     if (images.length > 5) {
       message.error("Chỉ được tải lên tối đa 5 hình ảnh!");
+      setLoading(false);
       return;
     }
 
@@ -160,7 +166,7 @@ const PostingCarInfoPage = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/api/v1/cars/create-car",
+        `${API_BASE_URL}/api/v1/cars/create-car`,
         formData,
         {
           headers: {

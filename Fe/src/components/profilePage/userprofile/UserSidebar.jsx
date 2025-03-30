@@ -4,6 +4,8 @@ import { Store } from "../../../Store";
 import "./UserSidebar.css";
 
 const UserSidebar = ({ activepage }) => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
   const navigate = useNavigate();
   const store = useContext(Store);
   let id;

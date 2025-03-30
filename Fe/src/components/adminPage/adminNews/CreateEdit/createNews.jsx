@@ -13,6 +13,8 @@ import Loading from "../../../Loading";
 import './style.css';
 
 const CreateNews = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
     const [loading, setLoading] = useState(true);
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -71,7 +73,7 @@ const CreateNews = () => {
         payloadFormData.append('isCategory', isCategory);
         payloadFormData.append('isStatus', isStatus);
         try {
-            const response = await axios.post(`http://localhost:8080/api/v1/news/create-news`, payloadFormData,
+            const response = await axios.post(`${API_BASE_URL}/api/v1/news/create-news`, payloadFormData,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,

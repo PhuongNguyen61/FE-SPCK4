@@ -9,6 +9,8 @@ import { Store } from "../../../Store";
 import Loading from "../../Loading";
 
 const Account = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  console.log("API_BASE_URL:", API_BASE_URL);
   const navigate = useNavigate();
   const store = useContext(Store);
   const [loading, setLoading] = useState(false);
@@ -30,7 +32,7 @@ const Account = () => {
     const fetchUserData = async () => {
       try {
         const userResponse = await axios.get(
-          `http://localhost:8080/api/v1/users/${store.currentUser._id}`
+          `${API_BASE_URL}/api/v1/users/${store.currentUser._id}`
         );
         setUserData(userResponse.data.data);
       } catch (error) {
@@ -56,7 +58,7 @@ const Account = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:8080/api/v1/applications/registerProvider/${userId}`,
+        `${API_BASE_URL}/api/v1/applications/registerProvider/${userId}`,
         {},
         {
           headers: {

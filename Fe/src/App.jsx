@@ -62,7 +62,7 @@ import WishListPage from "./components/wishListPage/index";
 
 //
 import "./App.css";
-const socket = io("http://localhost:8080"); // Kết nối đến server
+const socket = io("https://be-spck4.onrender.com"); // Kết nối đến server
 
 function App() {
   useEffect(() => {
@@ -194,3 +194,4 @@ function App() {
 }
 
 export default App;
+// "preview": "vite preview"

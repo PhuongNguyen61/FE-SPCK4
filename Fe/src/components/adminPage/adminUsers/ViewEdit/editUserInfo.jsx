@@ -10,6 +10,7 @@ import Loading from "../../../Loading";
 import './style.css';
 
 const EditUserInfo = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const store = useContext(Store);
@@ -36,7 +37,7 @@ const EditUserInfo = () => {
     const queryUserInfo = async () => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/users/${id}`,
+            const response = await axios.get(`${API_BASE_URL}/api/v1/users/${id}`,
                 {
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,
@@ -95,7 +96,7 @@ const EditUserInfo = () => {
         payloadFormData.append('dateOfBirth', dateOfBirth);
         payloadFormData.append('avatar', avatar);
         try {
-            const response = await axios.put(`http://localhost:8080/api/v1/users/modify/${id}`, payloadFormData,
+            const response = await axios.put(`${API_BASE_URL}/api/v1/users/modify/${id}`, payloadFormData,
             {
                 headers: {
                     'Authorization': `Bearer ${accessToken}`,

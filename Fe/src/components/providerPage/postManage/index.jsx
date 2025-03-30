@@ -16,6 +16,7 @@ import { message } from "antd"; //Thông báo
 //css
 import "./style.css";
 const PostManage = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const { idUser } = useParams();
   const store = useContext(Store);
   //phần edit
@@ -48,7 +49,7 @@ const PostManage = () => {
   const fetchApi = async () => {
     try {
       const responseCarData = await axios.get(
-        `http://localhost:8080/api/v1/cars/${idUser}`
+        `${API_BASE_URL}/api/v1/cars/${idUser}`
       );
       setProviderCar(responseCarData.data.data || []);
     } catch (error) {
@@ -61,7 +62,7 @@ const PostManage = () => {
   const fetchApiDeleteCar = async (idCar) => {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/api/v1/cars/deletecar/${idCar}`,
+        `${API_BASE_URL}/api/v1/cars/deletecar/${idCar}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -137,7 +138,10 @@ const PostManage = () => {
         <div className="nonePost">
           <p>Hiện tại bạn đang chưa đăng bán chiếc xe nào !</p>
           <img src={carImg} alt="" />
-          <p>Hãy đăng bán để có thể nhanh chóng bán được chiếc xe mà bạn muốn bán nào !</p>
+          <p>
+            Hãy đăng bán để có thể nhanh chóng bán được chiếc xe mà bạn muốn bán
+            nào !
+          </p>
         </div>
       )}
     </div>

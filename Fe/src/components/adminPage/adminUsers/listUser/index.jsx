@@ -17,6 +17,8 @@ const div = "div";
 const activeDiv = "activeDiv div";
 
 const ListUsers = () => {
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const store = useContext(Store);
@@ -39,7 +41,7 @@ const ListUsers = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/v1/users/countUsers",
+        `${API_BASE_URL}/api/v1/users/countUsers`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -51,21 +53,26 @@ const ListUsers = () => {
       setProvider(response.data.provider);
       setCustomer(response.data.customer);
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         switch (error.response.data.message) {
-          case 'jwt expired': {
-            message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
-            .then(() => {
-              store.setCurrentUser(null);
-              navigate('/login');
-            })
-            return
-          };
+          case "jwt expired": {
+            message
+              .error("Token đã hết hạn, vui lòng đăng nhập lại!")
+              .then(() => {
+                store.setCurrentUser(null);
+                navigate("/login");
+              });
+            return;
+          }
           default:
-          return message.error((error.response.data.message));
+            return message.error(error.response.data.message);
         }
       } else {
-        message.error('Lỗi không xác định');
+        message.error("Lỗi không xác định");
       }
     } finally {
       setLoading(false);
@@ -79,14 +86,14 @@ const ListUsers = () => {
   const [limit, setLimit] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [listUsers, setListUsers] = useState([]);
-  console.log(listUsers.length);
-  
+  const [listUsers, setListUsers] = useState(null);
+  // console.log(listUsers.length);
+
   const queryListUsers = async () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `http://localhost:8080/api/v1/users?limit=${limit}&currentPage=${currentPage}&role=${role}`,
+        `${API_BASE_URL}/api/v1/users?limit=${limit}&currentPage=${currentPage}&role=${role}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -96,21 +103,26 @@ const ListUsers = () => {
       setListUsers(response.data.data);
       setTotalPages(response.data.totalPages);
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         switch (error.response.data.message) {
-          case 'jwt expired': {
-            message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'))
-            .then(() => {
-              store.setCurrentUser(null);
-              navigate('/login');
-            })
-            return
-          };
+          case "jwt expired": {
+            message
+              .error("Token đã hết hạn, vui lòng đăng nhập lại!")
+              .then(() => {
+                store.setCurrentUser(null);
+                navigate("/login");
+              });
+            return;
+          }
           default:
-          return message.error((error.response.data.message));
+            return message.error(error.response.data.message);
         }
       } else {
-        message.error('Lỗi không xác định');
+        message.error("Lỗi không xác định");
       }
     } finally {
       setLoading(false);
@@ -149,7 +161,7 @@ const ListUsers = () => {
     setLoading(true);
     try {
       const response = await axios.delete(
-        `http://localhost:8080/api/v1/users/deleteUserById/${id}`,
+        `${API_BASE_URL}/api/v1/users/deleteUserById/${id}`,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -158,28 +170,36 @@ const ListUsers = () => {
       );
       queryCountUsers();
       queryListUsers();
-      message.success((response.data.message), 2);
+      message.success(response.data.message, 2);
     } catch (error) {
-      if (error.response && error.response.data && error.response.data.message) {
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
         switch (error.response.data.message) {
-          case 'jwt expired': {
-            message.error(('Token đã hết hạn, vui lòng đăng nhập lại!'), 2)
-            .then(() => {
-              store.setCurrentUser(null);
-              navigate('/login');
-            })
-            return
-          };
+          case "jwt expired": {
+            message
+              .error("Token đã hết hạn, vui lòng đăng nhập lại!", 2)
+              .then(() => {
+                store.setCurrentUser(null);
+                navigate("/login");
+              });
+            return;
+          }
           default:
-          return message.error((error.response.data.message), 2);
+            return message.error(error.response.data.message, 2);
         }
       } else {
-        message.error('Lỗi không xác định');
+        message.error("Lỗi không xác định");
       }
     } finally {
       setLoading(false);
     }
   };
+  if (!listUsers) {
+    return <Loading></Loading>;
+  }
   return (
     <div className="listUsers">
       <h3>Thành viên</h3>
@@ -225,70 +245,76 @@ const ListUsers = () => {
             <p className="theadTime">Thời gian đăng ký</p>
             <p className="theadAction">Hành động</p>
           </div>
-          {listUsers.length !== 0 ?
-          <div className="tbody">
-            {listUsers.map((user, idx) => {
-              return (
-                <div key={idx + 1} className="tr">
-                  <div className="username">
-                    <img src={user.avatar} alt="" />
-                    <h5>{user.username}</h5>
+          {listUsers.length !== 0 ? (
+            <div className="tbody">
+              {listUsers.map((user, idx) => {
+                return (
+                  <div key={idx + 1} className="tr">
+                    <div className="username">
+                      <img src={user.avatar} alt="" />
+                      <h5>{user.username}</h5>
+                    </div>
+                    <p className="email">{user.email}</p>
+                    <p className="role">{getRoleName(user.role)}</p>
+                    <p className="time">
+                      {moment(user.createdAt).format("HH:mm, DD/MM/YYYY")}
+                    </p>
+                    <div className="action">
+                      <button
+                        onClick={() =>
+                          navigate(`/admin/users/viewUserInfo/${user._id}`)
+                        }
+                      >
+                        Xem chi tiết
+                      </button>
+                      <button
+                        onClick={() =>
+                          navigate(`/admin/users/editUserInfo/${user._id}`)
+                        }
+                      >
+                        Chỉnh sửa
+                      </button>
+                      <button
+                        onClick={() => handleDelete(user._id)}
+                        disabled={user.role === "ADMIN"}
+                      >
+                        Xóa bỏ
+                      </button>
+                    </div>
                   </div>
-                  <p className="email">{user.email}</p>
-                  <p className="role">{getRoleName(user.role)}</p>
-                  <p className="time">
-                    {moment(user.createdAt).format("HH:mm, DD/MM/YYYY")}
-                  </p>
-                  <div className="action">
-                    <button
-                      onClick={() =>
-                        navigate(`/admin/users/viewUserInfo/${user._id}`)
-                      }
-                    >
-                      Xem chi tiết
-                    </button>
-                    <button
-                      onClick={() =>
-                        navigate(`/admin/users/editUserInfo/${user._id}`)
-                      }
-                    >
-                      Chỉnh sửa
-                    </button>
-                    <button
-                      onClick={() => handleDelete(user._id)}
-                      disabled={user.role === "ADMIN"}
-                    >
-                      Xóa bỏ
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div> : <None content={'Chưa có người nào'}/>}
+                );
+              })}
+            </div>
+          ) : (
+            <None content={"Chưa có người nào"} />
+          )}
         </div>
-        {listUsers.length !== 0 ?
-        <div className="pagination">
-          <select name="" id="" onChange={(e) => setLimit(e.target.value)}>
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="50">50</option>
-          </select>
-          <button
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
-          >
-            <LeftArrowIcon />
-          </button>
-          <h5>
-            Trang {currentPage}/{totalPages}
-          </h5>
-          <button
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage === totalPages}
-          >
-            <RightArrowIcon />
-          </button>
-        </div> : '' }
+        {listUsers.length !== 0 ? (
+          <div className="pagination">
+            <select name="" id="" onChange={(e) => setLimit(e.target.value)}>
+              <option value="10">10</option>
+              <option value="20">20</option>
+              <option value="50">50</option>
+            </select>
+            <button
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+            >
+              <LeftArrowIcon />
+            </button>
+            <h5>
+              Trang {currentPage}/{totalPages}
+            </h5>
+            <button
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+            >
+              <RightArrowIcon />
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
       {loading && <Loading></Loading>}
     </div>
